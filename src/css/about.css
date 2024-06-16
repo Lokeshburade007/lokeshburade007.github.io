@@ -1,0 +1,395 @@
+:root {
+    --light-bg: #0e3c5e;
+    --dark-bg: #081b29;
+    --blue: #00b7ff;
+    --light-blue: #00abf0;
+    --blue-dark: #165d79;
+    --text-white: #ededed;
+    --blue-text: #00abf0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* main contain home page */
+.about {
+    width: 100%;
+    background-color: var(--dark-bg);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px 8%;
+}
+
+.imageSection {
+    grid-area: imageSect;
+}
+
+.infoSection {
+    grid-area: infoSect;
+}
+
+.skillSection {
+    grid-area: skillSect;
+}
+
+.about_contents {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    grid-gap: 70px;
+    grid-template-areas: 'imageSect infoSect'
+        'skillSect skillSect';
+}
+
+.about_contents .imageSection {
+    position: relative;
+    min-width: 300px;
+    height: 380px;
+    transition: 0.5s;
+}
+
+.imageSection img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+}
+.imageSection:hover{
+    position: relative;
+    transform: scale(1.05);
+}
+.imageSection::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -10%;
+    width: 110%;
+    height: 110%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 1.6s;
+    z-index: 3;
+}
+
+.about_contents .imageSection::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    outline: 3px solid var(--blue);
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+}
+
+.infoSection h1 {
+    color: var(--text-white);
+    font-size: 38px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.infoSection h1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 2s;
+    z-index: 2;
+}
+
+.infoSection h1::after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 3px;
+    top: calc(110% - 1px);
+    left: 0;
+    background-color: var(--text-white);
+}
+
+.infoSection h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--blue-text);
+    padding: 14px 0px 15px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    position: relative;
+}
+.infoSection h2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 2.3s;
+    z-index: 2;
+}
+.infoSection p {
+    color: var(--text-white);
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: justify;
+    padding-bottom: 8px;
+    position: relative;
+}
+.infoSection p::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 2.6s;
+    z-index: 2;
+}
+
+.personalInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px 20px;
+    margin-top: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--blue-text);
+    position: relative;
+}
+.personalInfo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 3s;
+    z-index: 2;
+}
+
+.personalInfo div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.personalInfo .colorText{
+    color: var(--blue-text);
+    font-weight: 700;
+    font-size: 17px;
+}
+.personalInfo div span {
+    color: var(--text-white);
+    letter-spacing: 1px;
+}
+
+/* .infoSection button{
+    min-width: 170px;
+    padding: 12px 18px;
+    border: 1px solid var(--light-bg);
+    border-radius: 25px;
+    font-size: 18px;
+    background-color: var(--light-blue);
+    color: var(--dark-bg);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.4s;
+    margin-top: 20px;
+}
+
+.infoSection button:hover{
+    background-color: var(--dark-bg);
+    color: var(--light-blue);
+    transition: 0.3s;
+} */
+
+
+.infoSection .btn-box {
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 250px;
+    height: 50px;
+}
+
+.infoSection .btn-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 1s ease forwards;
+    animation-delay: 3.4s;
+    z-index: 2;
+}
+
+.infoSection .btn-box a {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--light-blue);
+    border: 2px solid var(--light-blue);
+    border-radius: 18px;
+    font-size: 19px;
+    color: var(--dark-bg);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 1;
+    transition: 0.5s;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.infoSection .btn-box a:hover {
+    color: var(--light-blue);
+}
+
+.infoSection .btn-box a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--dark-bg);
+    z-index: -1;
+    transition: 0.5s;
+}
+
+.infoSection .btn-box a:hover::before {
+    width: 100%;
+}
+
+
+/* Skill section */
+
+.skillSection{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px 80px;
+}
+
+.skillSection .subjects {
+    font-size: 17px;
+    font-weight: thin;
+    color: var(--blue-text);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.progress_bar {
+    width: 100%;
+    height: 16px;
+    background-color: var(--blue-dark);
+    padding: 4px 6px;
+    border-top: 1px solid var(--light-blue);
+    border-bottom: 1px solid var(--text-white);
+    border-radius: 15px;
+}
+
+.progress_line {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--light-blue);
+    box-shadow: -1px -1px 2px var(--dark-bg) 1px 1px 2px var(--light-bg);
+    border-radius: 15px;
+}
+
+.progress_line::after {
+    position: absolute;
+    content: attr(value);
+    top: -30px;
+    right: 0px;
+    transform: translate(-50%);
+    color: var(--text-white);
+    font-size: 17px;
+}
+
+.progress_line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    animation: showRight 3s ease forwards;
+    animation-delay: 3.8s;
+    z-index: 2;
+}
+
+@media(max-width: 1068px) {
+    .about_contents {
+        grid-template-areas: 'imageSect skillSect'
+            'infoSect infoSect';
+    }
+    .infoSection{
+        margin: 0 20px;
+    }
+    .personalInfo{
+        margin: 0 20px;
+    }
+    .skillSection {
+        margin: 0 40px;
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+    }
+}
+
+@media(max-width: 878px) {
+    .about_contents {
+        grid-template-areas: 'imageSect imageSect'
+            'infoSect infoSect'
+            'skillSect skillSect';
+    }
+
+    .about_contents .imageSection {
+        width: 55%;
+        height: 450px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media(max-width: 628px) {
+    .personalInfo {
+        grid-template-columns: 1fr;
+    }
+
+    .about_contents .imageSection {
+        width: 60%;
+        height: 370px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
