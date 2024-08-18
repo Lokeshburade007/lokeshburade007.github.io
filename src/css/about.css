@@ -6,6 +6,7 @@
     --blue-dark: #165d79;
     --text-white: #ededed;
     --blue-text: #00abf0;
+    --green-bg: #68ff66;
 }
 
 * {
@@ -320,7 +321,7 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: var(--light-blue);
+    background-color: var(--green-bg);
     box-shadow: -1px -1px 2px var(--dark-bg) 1px 1px 2px var(--light-bg);
     border-radius: 15px;
 }

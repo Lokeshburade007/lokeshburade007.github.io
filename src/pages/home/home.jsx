@@ -1,25 +1,31 @@
-// Home.jsx
 import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import "../../css/home.css";
 import meresponsive from "../../images/me-responsive.png";
 import resume from "../../images/resume.pdf";
-// Remove the import for designation.js
 
 const Home = () => {
   useEffect(() => {
     const typed = new window.Typed(".auto-input", {
       strings: [
         "UI/UX Developer",
-        "Best in ReactJs",
+        "Best in ReactJs/NextJS",
         "Programmer",
-        "Full Stack Web-Developer"
+        "MERN Stack Developer",
+        "JAM Stack Enthusiast"
       ],
-      typeSpeed: 100,
-      backSpeed: 100,
+      
+      typeSpeed: 75,
+      backSpeed: 50,
+      startDelay: 500,
+      backDelay: 1500,
       loop: true
     });
+
+    return () => {
+      typed.destroy();  // Cleanup to prevent memory leaks
+    };
   }, []);
 
   return (
@@ -36,16 +42,11 @@ const Home = () => {
               I'm <span className="auto-input"></span>
             </h3>
             <p>
-              Currently I am pursuing B.Tech 4th year in Computer Science &
-              Engineering Branch. I am a Full Stack Web Developer with 2 years
-              of learning experience in Frontend and 6 month learning experience
-              in Backend Development, and 3+ year of experience in Programming.
-              <br />
-              <br />
-              Throughout my career, I have worked on numerous projects ranging
-              from Realtime Website For NGO to Realtime Internship at multiple
-              Startups.
+              I recently graduated with a B.Tech degree in Computer Science & Engineering. I am a MERN Stack Web Developer with over 2 years of learning experience in Frontend Development and 6 months in Backend Development. Additionally, I have more than 3 years of learning experience in Programming.
+              <br /><br />
+              My learning experiences include working on various projects, such as developing real-time websites for NGOs and engaging in internships at multiple startups. I also have 6 months of professional experience as a Software Engineer Intern at TWJ IT Solution, where I applied my skills in practical scenarios, deepening my understanding of web development and preparing me for real-world challenges.
             </p>
+
             <div className="btn-box">
               <a href={resume} download="Lokesh's_resume">
                 Hire Me

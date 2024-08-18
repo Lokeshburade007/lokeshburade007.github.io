@@ -18,31 +18,24 @@ const About = () => {
           <div className="infoSection">
             <h1>About Me</h1>
             <h2>
-              Hello and welcome to my portfolio website. I am a Full Stack Web
-              Designer & UI/UX Designer.
+              Hello and welcome to my portfolio website. I am a MERN Stack Web Developer and UI/UX Designer.
             </h2>
             <p>
-              My name is Lokesh Burade & Currently I am pursuing B.Tech 4th year
-              in Computer Science & Engineering Branch. I am a Web Developer
-              with 2 years of Learning experiences in Frontend Developement and
-              3+ year of experience in Programming.
+              My name is Lokesh Burade, and I recently graduated with a B.Tech degree in Computer Science & Engineering. I have over 2 years of learning experience in Frontend Development, more than 3 years of experience in Programming, and 6 months of professional experience as a Software Engineer Intern at TWJ IT Solution.
             </p>
             <br />
             <p>
-              Throughout my career, I have worked on numerous projects ranging
-              from Relatime Website For NGO to Realtime Internship at multiple
-              Startups. I have a strong ability to Teach 12th class as a Coding
-              Teacher.I am constantly looking for ways to improve and learn. I
-              enjoy play chess and Gyming. On this website, you will find my
-              portfolio which showcases my previous work, my resume which
-              highlights my experience and education, and a way to contact me
-              for any inquiries or collaborations.
+              During my academic journey, I have worked on various projects, including developing real-time websites for NGOs and engaging in internships at multiple startups. I am passionate about teaching and have experience as a coding instructor for 12th-grade students. My strong foundation in both web development and programming drives me to continuously learn and improve my skills.
             </p>
             <br />
             <p>
-              Thank you for visiting my website and I look forward to connecting
-              with you.
+              In my free time, I enjoy playing chess and going to the gym. This website showcases my portfolio, highlighting my previous work, as well as my resume, which details my educational background, skills, and internship experience. I welcome any inquiries or opportunities for collaboration.
             </p>
+            <br />
+            <p>
+              Thank you for visiting my website. I look forward to connecting with you.
+            </p>
+
 
             <div className="personalInfo">
               <div>
@@ -79,19 +72,29 @@ const About = () => {
               <div className="progress_bar">
                 <div
                   className="progress_line"
-                  value ="95%"
+                  value="95%"
                   style={{ maxWidth: "95%" }}
                 ></div>
               </div>
             </div>
 
             <div className="skill">
+              <div className="subject">TeamWork</div>
+              <div className="progress_bar">
+                <div
+                  className="progress_line"
+                  value="90%"
+                  style={{ maxWidth: "90%" }}
+                ></div>
+              </div>
+            </div>
+            <div className="skill">
               <div className="subject">Communication Skill</div>
               <div className="progress_bar">
                 <div
                   className="progress_line"
                   value="75%"
-                  style={{maxWidth: "75%"}}
+                  style={{ maxWidth: "75%" }}
                 ></div>
               </div>
             </div>
@@ -102,7 +105,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="80%"
-                  style={{maxWidth: "80%"}}
+                  style={{ maxWidth: "80%" }}
                 ></div>
               </div>
             </div>
@@ -113,7 +116,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="80%"
-                  style={{maxWidth: "80%"}}
+                  style={{ maxWidth: "80%" }}
                 ></div>
               </div>
             </div>
@@ -123,8 +126,8 @@ const About = () => {
               <div className="progress_bar">
                 <div
                   className="progress_line"
-                  value="70%"
-                  style={{maxWidth: "70%"}}
+                  value="60%"
+                  style={{ maxWidth: "60%" }}
                 ></div>
               </div>
             </div>
@@ -135,7 +138,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="85%"
-                  style={{maxWidth: "70%"}}
+                  style={{ maxWidth: "85%" }}
                 ></div>
               </div>
             </div>
@@ -144,8 +147,8 @@ const About = () => {
               <div className="progress_bar">
                 <div
                   className="progress_line"
-                  value="70%"
-                  style={{maxWidth: "70%"}}
+                  value="80%"
+                  style={{ maxWidth: "80%" }}
                 ></div>
               </div>
             </div>
@@ -154,8 +157,8 @@ const About = () => {
               <div className="progress_bar">
                 <div
                   className="progress_line"
-                  value="80%"
-                  style={{maxWidth: "70%"}}
+                  value="65%"
+                  style={{ maxWidth: "65%" }}
                 ></div>
               </div>
             </div>
@@ -164,8 +167,8 @@ const About = () => {
               <div className="progress_bar">
                 <div
                   className="progress_line"
-                  value="85%"
-                  style={{maxWidth: "70%"}}
+                  value="80%"
+                  style={{ maxWidth: "80%" }}
                 ></div>
               </div>
             </div>
@@ -175,7 +178,17 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="90%"
-                  style={{maxWidth: "90%"}}
+                  style={{ maxWidth: "90%" }}
+                ></div>
+              </div>
+            </div>
+            <div className="skill">
+              <div className="subject">Core Java</div>
+              <div className="progress_bar">
+                <div
+                  className="progress_line"
+                  value="80%"
+                  style={{ maxWidth: "80%" }}
                 ></div>
               </div>
             </div>
@@ -185,7 +198,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="85%"
-                  style={{maxWidth: "85%"}}
+                  style={{ maxWidth: "85%" }}
                 ></div>
               </div>
             </div>
@@ -195,7 +208,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="85%"
-                  style={{maxWidth: "65%"}}
+                  style={{ maxWidth: "85%" }}
                 ></div>
               </div>
             </div>
@@ -206,7 +219,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="60%"
-                  style={{maxWidth: "70%"}}
+                  style={{ maxWidth: "70%" }}
                 ></div>
               </div>
             </div>
@@ -216,7 +229,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="90%"
-                  style={{maxWidth: "90%"}}
+                  style={{ maxWidth: "90%" }}
                 ></div>
               </div>
             </div>
@@ -226,7 +239,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="75%"
-                  style={{maxWidth: "55%"}}
+                  style={{ maxWidth: "75%" }}
                 ></div>
               </div>
             </div>
@@ -236,7 +249,7 @@ const About = () => {
                 <div
                   className="progress_line"
                   value="70%"
-                  style={{maxWidth: "70%"}}
+                  style={{ maxWidth: "70%" }}
                 ></div>
               </div>
             </div>

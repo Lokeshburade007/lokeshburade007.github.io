@@ -1,18 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
-    const toggleBtn = document.querySelector(".toggle_btn");
-const toggleBtnIcon = document.querySelector(".toggle_btn i");
-const dropDownMenu = document.querySelector(".dropdown_menu");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-function Navigate(){
-    dropDownMenu.classList.toggle('open');
-    const isOpen = dropDownMenu.classList.contains('open');
-    toggleBtnIcon.classList = isOpen
-    ? 'fa-solid fa-xmark'
-    : 'fa-solid fa-bars';
-};
+  const handleToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="container-home">
       <Link to={"/"} className="logo">
@@ -20,38 +15,89 @@ function Navigate(){
       </Link>
 
       <nav className="navbar">
-        <NavLink to={"/"}>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          end
+        >
           Home
         </NavLink>
-        <NavLink to={"/about"}>About</NavLink>
-        <NavLink to={"/services"}>Services</NavLink>
-        <NavLink to={"/projects"}>Projects</NavLink>
-        <NavLink to={"/contact"}>Contact</NavLink>
-        <div className="toggle_btn" onclick="Navigate()">
-          <i className="fa-solid fa-bars"></i>
+        <NavLink
+          to="/about"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          About
+        </NavLink>
+        <NavLink
+          to="/services"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Services
+        </NavLink>
+        <NavLink
+          to="/projects"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Projects
+        </NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Contact
+        </NavLink>
+        <div className="toggle_btn" onClick={handleToggle}>
+          <i className={isMenuOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"}></i>
         </div>
       </nav>
-      <div className="dropdown_menu">
-        <ul>
-          <li>
-            <NavLink to={"/"} className="active">
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/about"}>About</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/services"}>Services</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/projects"}>Projects</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/contact"}>Contact</NavLink>
-          </li>
-        </ul>
-      </div>
+
+      {isMenuOpen && (
+        <div className={`dropdown_menu ${isMenuOpen ? "open" : ""}`}>
+          <ul>
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                end
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/services"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Services
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/projects"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Projects
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Contact
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

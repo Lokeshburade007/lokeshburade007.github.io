@@ -13,7 +13,7 @@ const Contact = () => {
     fetch(scriptURL, { method: "POST", body: new FormData(form) })
       .then((response) => alert("Thank you! Your form has been submitted successfully."))
       .then(() => {
-        window.location.reload();
+        window.location.href = "/";
       })
       .catch((error) => console.error("Error!", error.message));
   };

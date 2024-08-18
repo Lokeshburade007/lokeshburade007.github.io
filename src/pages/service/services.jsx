@@ -31,21 +31,21 @@ const Services = () => {
             </div>
             <div className="experiences" id="experiences">
                 <div className="experience">
-                    <h3>03</h3>
-                    <p>Year Experiences</p>
+                    <h3>8</h3>
+                    <p>Months of Experience</p>
                 </div>
                 <div className="portfolios">
                     <div className="portfolio">
-                        <h4>7+</h4>
-                        <p>Programming Languages</p>
+                        <h4>9+</h4>
+                        <p>Coding Languages</p>
                     </div>
                     <div className="portfolio">
                         <h4>3+</h4>
-                        <p>Year Coding Experiences</p>
+                        <p>Year Learning Coding Experiences</p>
                     </div>
                     <div className="portfolio">
-                        <h4>20+</h4>
-                        <p>Completed Projects</p>
+                        <h4>5+</h4>
+                        <p>Realtime Projects</p>
                     </div>
                     <div className="portfolio">
                         <h4>10+</h4>
