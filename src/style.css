@@ -288,9 +288,16 @@
   }
 
   footer .container-f {
-      flex-wrap: wrap;
-      height: auto;
-      padding: 20px;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 20px;
+  }
+
+  footer .container-f a{
+    text-align: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   footer .logo,
@@ -300,11 +307,20 @@
       max-width: 100%;
       margin-bottom: 20px;
       justify-content: center;
+      align-items: center;
       text-align: center;
+      font-size: 16px;
   }
 
   footer p {
       margin-bottom: 0px;
+  }
+  .copyright{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
   }
 }
 

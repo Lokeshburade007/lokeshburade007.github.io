@@ -19,8 +19,9 @@ const Footer = () => {
           </a>
         </div>
         <p className="copyright">
-          <i className="fas fa-heart"></i>
-          Created By<a href="index.html"> Lokesh Burade</a>-05/2023
+          <span><i className="fas fa-heart"></i>
+          Created By</span>
+          <a href="index.html"> Lokesh Burade</a>-05/2023
         </p>
       </div>
     </footer>
