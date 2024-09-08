@@ -169,7 +169,7 @@ const Projects = () => {
 
                 <div className="project">
                     <div className="img-container">
-                        <a href="https://celebrated-naiad-a3f664.netlify.app/" target="_blank" rel="noreferrer">
+                        <a href="https://my-personal-library-bookset.netlify.app/" target="_blank" rel="noreferrer">
                             <img src={image7} alt="Projects 7 : UI Design Using Tailwind CSS" />
                         </a>
                     </div>
@@ -180,7 +180,7 @@ const Projects = () => {
                                 rel="noreferrer">
                                 <i className="fab fa-github"></i>
                             </a>
-                            <a href="https://celebrated-naiad-a3f664.netlify.app/" target="_blank" rel="noreferrer">
+                            <a href="https://my-personal-library-bookset.netlify.app/" target="_blank" rel="noreferrer">
                                 <i className="fa fa-globe"></i>
                             </a>
                         </div>
