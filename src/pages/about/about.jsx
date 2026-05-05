@@ -167,7 +167,7 @@ const About = () => {
               <span className="text-text-white font-medium">hybrid setup</span>{" "}
               at{" "}
               <a
-                href="https://techcoderlabz.com"
+                href="https://sagarkothari88.one"
                 target="_blank"
                 rel="noreferrer"
                 className="text-text-white font-medium underline decoration-sky-blue/40 underline-offset-4 hover:decoration-sky-blue transition-colors"
@@ -270,9 +270,9 @@ const About = () => {
                       <>
                         {" "}
                         <span className="text-text-muted">·</span>{" "}
-                        {job.companyUrl ? (
+                        {job.companyAltUrl || job.companyUrl ? (
                           <a
-                            href={job.companyUrl}
+                            href={job.companyAltUrl || job.companyUrl}
                             target="_blank"
                             rel="noreferrer"
                             className="text-cyan-glow hover:underline underline-offset-4 decoration-cyan-glow/50"

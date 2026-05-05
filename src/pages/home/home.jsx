@@ -87,7 +87,7 @@ const Home = () => {
               </span>{" "}
               at{" "}
               <a
-                href="https://techcoderlabz.com"
+                href="https://sagarkothari88.one"
                 target="_blank"
                 rel="noreferrer"
                 className="text-text-white font-medium underline decoration-sky-blue/40 underline-offset-4 hover:decoration-sky-blue transition-colors"
@@ -184,10 +184,10 @@ const Home = () => {
                       {PROFILE.location}
                     </span>
                     <a
-                      href="https://techcoderlabz.com"
+                      href="https://sagarkothari88.one"
                       target="_blank"
                       rel="noreferrer"
-                      title="Visit TechCoderLabz"
+                      title="Visit SN AnyDevice Software Solutions"
                       className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue/40 transition-colors"
                     >
                       <i className="fa-solid fa-briefcase text-sky-blue" />
@@ -227,10 +227,10 @@ const Home = () => {
                   panel) and fades out on desktop hover so it never sits on
                   top of the social-link row when the panel reveals. */}
               <a
-                href="https://techcoderlabz.com"
+                href="https://sagarkothari88.one"
                 target="_blank"
                 rel="noreferrer"
-                title="Visit TechCoderLabz"
+                title="Visit SN AnyDevice Software Solutions"
                 className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 hover:!border-sky-blue/60 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none"
               >
                 <div className="flex items-center gap-3">

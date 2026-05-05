@@ -99,8 +99,9 @@ export const SKILL_GROUPS = [
 export const EXPERIENCE = [
   {
     company: "SN Any Device Software Solutions",
+    companyUrl: "https://sagarkothari88.one",
     companyAlt: "TechCoderLabz",
-    companyUrl: "https://techcoderlabz.com",
+    companyAltUrl: "https://techcoderlabz.com",
     aliasNote:
       "Same team, two proprietorships — SN AnyDevice ships our client & store-published apps; TechCoderLabz is our open-source / dev-tools arm (npm, GitHub orgs).",
     role: "Full Stack Developer (Hybrid)",

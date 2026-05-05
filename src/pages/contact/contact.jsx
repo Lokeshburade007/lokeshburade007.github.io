@@ -181,12 +181,21 @@ const Contact = () => {
               <p className="text-text-white mt-1">
                 Full-time hybrid at{" "}
                 <a
-                  href="https://techcoderlabz.com"
+                  href="https://sagarkothari88.one"
                   target="_blank"
                   rel="noreferrer"
                   className="underline decoration-sky-blue/50 hover:decoration-sky-blue underline-offset-2"
                 >
-                  SN AnyDevice / TechCoderLabz
+                  SN AnyDevice
+                </a>{" "}
+                /{" "}
+                <a
+                  href="https://techcoderlabz.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-cyan-glow/50 hover:decoration-cyan-glow underline-offset-2"
+                >
+                  TechCoderLabz
                 </a>
                 ; freelance hours evenings & weekends.
               </p>
