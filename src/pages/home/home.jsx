@@ -191,7 +191,18 @@ const Home = () => {
                       className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue/40 transition-colors"
                     >
                       <i className="fa-solid fa-briefcase text-sky-blue" />
-                      SN AnyDevice · TechCoderLabz
+                      SN AnyDevice
+                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
+                    </a>
+                    <a
+                      href="https://techcoderlabz.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Visit TechCoderLabz"
+                      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted hover:text-cyan-glow hover:border-cyan-glow/40 transition-colors"
+                    >
+                      <i className="fa-solid fa-cube text-cyan-glow" />
+                      TechCoderLabz
                       <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
                     </a>
                   </div>
@@ -222,35 +233,50 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Floating: current company chip (bottom-left) — clickable.
+              {/* Floating: current company chip (bottom-left).
                   Hidden on mobile (info already in the always-visible bottom
                   panel) and fades out on desktop hover so it never sits on
-                  top of the social-link row when the panel reveals. */}
-              <a
-                href="https://sagarkothari88.one"
-                target="_blank"
-                rel="noreferrer"
-                title="Visit SN AnyDevice Software Solutions"
-                className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 hover:!border-sky-blue/60 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none"
+                  top of the social-link row when the panel reveals.
+                  The chip itself is a div so each brand name can be its own
+                  separate clickable link to its own URL (HTML disallows
+                  nested anchors). */}
+              <div
+                className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none"
               >
                 <div className="flex items-center gap-3">
                   <div className="grid place-items-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-mint/10 text-mint shrink-0">
                     <i className="fa-solid fa-circle-check" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs text-text-muted flex items-center gap-1">
+                    <p className="text-[10px] sm:text-xs text-text-muted">
                       Currently at
-                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
                     </p>
-                    <p className="text-xs sm:text-sm font-semibold text-text-white leading-tight">
+                    <a
+                      href="https://sagarkothari88.one"
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Visit SN AnyDevice Software Solutions"
+                      className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-text-white leading-tight hover:text-sky-blue transition-colors"
+                    >
                       SN AnyDevice Software Solutions
-                    </p>
-                    <p className="text-[10px] sm:text-[11px] text-cyan-glow leading-tight mt-0.5">
-                      operating as TechCoderLabz
+                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
+                    </a>
+                    <p className="text-[10px] sm:text-[11px] leading-tight mt-0.5 text-text-muted">
+                      operating as{" "}
+                      <a
+                        href="https://techcoderlabz.com"
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Visit TechCoderLabz"
+                        className="inline-flex items-center gap-1 text-cyan-glow hover:underline underline-offset-2 decoration-cyan-glow/60"
+                      >
+                        TechCoderLabz
+                        <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
+                      </a>
                     </p>
                   </div>
                 </div>
-              </a>
+              </div>
 
               {/* Floating: location chip (top-right) — hidden on mobile
                   (location is in the always-visible panel) so the photo
