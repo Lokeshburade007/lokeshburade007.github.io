@@ -27,11 +27,13 @@ const TECH_BADGES = [
   "React",
   "Vite",
   "Capacitor.js",
+  "Flutter",
+  "Dart",
   "Node.js",
   "MongoDB",
+  "Express",
   "Tailwind",
   "TypeScript",
-  "Flutter",
   "dhive",
   "aioha",
 ];
@@ -220,13 +222,16 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Floating: current company chip (bottom-left) — clickable */}
+              {/* Floating: current company chip (bottom-left) — clickable.
+                  Hidden on mobile (info already in the always-visible bottom
+                  panel) and fades out on desktop hover so it never sits on
+                  top of the social-link row when the panel reveals. */}
               <a
                 href="https://techcoderlabz.com"
                 target="_blank"
                 rel="noreferrer"
                 title="Visit TechCoderLabz"
-                className="absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-500 group-hover:-translate-y-1 group-hover:border-sky-blue/40 hover:!border-sky-blue/60"
+                className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 hover:!border-sky-blue/60 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none"
               >
                 <div className="flex items-center gap-3">
                   <div className="grid place-items-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-mint/10 text-mint shrink-0">
@@ -247,9 +252,11 @@ const Home = () => {
                 </div>
               </a>
 
-              {/* Floating: location chip (top-right) */}
+              {/* Floating: location chip (top-right) — hidden on mobile
+                  (location is in the always-visible panel) so the photo
+                  isn't cluttered on small screens. */}
               <div
-                className="absolute -top-4 -right-4 bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-500 group-hover:-translate-y-1 group-hover:border-sky-blue/40"
+                className="hidden md:block absolute -top-4 -right-4 bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-500 group-hover:-translate-y-1 group-hover:border-sky-blue/40"
                 style={{ animationDelay: "1.2s" }}
               >
                 <p className="text-[10px] sm:text-xs text-text-muted">
