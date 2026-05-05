@@ -139,6 +139,7 @@ export const EXPERIENCE = [
   },
   {
     company: "Nofinite Technologies Pvt. Ltd.",
+    companyUrl: "https://nofinite.com/",
     role: "Associate Software Developer",
     location: "Nagpur, India",
     period: "Jun 2024 – Nov 2024",

@@ -86,23 +86,11 @@ const Home = () => {
                 hybrid
               </span>{" "}
               at{" "}
-              <a
-                href="https://sagarkothari88.one"
-                target="_blank"
-                rel="noreferrer"
-                className="text-text-white font-medium underline decoration-sky-blue/40 underline-offset-4 hover:decoration-sky-blue transition-colors"
-              >
+              <span className="text-text-white font-medium">
                 SN Any Device Software Solutions
-              </a>{" "}
+              </span>{" "}
               <span className="text-text-muted">/</span>{" "}
-              <a
-                href="https://techcoderlabz.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-text-white font-medium underline decoration-cyan-glow/40 underline-offset-4 hover:decoration-cyan-glow transition-colors"
-              >
-                TechCoderLabz
-              </a>{" "}
+              <span className="text-text-white font-medium">TechCoderLabz</span>{" "}
               while taking on select freelance work for founders and product
               teams.
             </p>
@@ -183,28 +171,10 @@ const Home = () => {
                       <i className="fa-solid fa-location-dot text-sky-blue" />
                       {PROFILE.location}
                     </span>
-                    <a
-                      href="https://sagarkothari88.one"
-                      target="_blank"
-                      rel="noreferrer"
-                      title="Visit SN AnyDevice Software Solutions"
-                      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue/40 transition-colors"
-                    >
+                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted">
                       <i className="fa-solid fa-briefcase text-sky-blue" />
-                      SN AnyDevice
-                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
-                    </a>
-                    <a
-                      href="https://techcoderlabz.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      title="Visit TechCoderLabz"
-                      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted hover:text-cyan-glow hover:border-cyan-glow/40 transition-colors"
-                    >
-                      <i className="fa-solid fa-cube text-cyan-glow" />
-                      TechCoderLabz
-                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
-                    </a>
+                      SN AnyDevice · TechCoderLabz
+                    </span>
                   </div>
 
                   <div className="mt-4 flex items-center gap-2">
@@ -237,12 +207,9 @@ const Home = () => {
                   Hidden on mobile (info already in the always-visible bottom
                   panel) and fades out on desktop hover so it never sits on
                   top of the social-link row when the panel reveals.
-                  The chip itself is a div so each brand name can be its own
-                  separate clickable link to its own URL (HTML disallows
-                  nested anchors). */}
-              <div
-                className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none"
-              >
+                  Plain text — links to the company sites live on the About
+                  page, not on the home hero. */}
+              <div className="hidden md:block absolute -bottom-4 -left-4 max-w-[calc(100%-1.5rem)] bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-300 md:group-hover:opacity-0 md:group-hover:scale-95 md:group-hover:pointer-events-none">
                 <div className="flex items-center gap-3">
                   <div className="grid place-items-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-mint/10 text-mint shrink-0">
                     <i className="fa-solid fa-circle-check" />
@@ -251,28 +218,11 @@ const Home = () => {
                     <p className="text-[10px] sm:text-xs text-text-muted">
                       Currently at
                     </p>
-                    <a
-                      href="https://sagarkothari88.one"
-                      target="_blank"
-                      rel="noreferrer"
-                      title="Visit SN AnyDevice Software Solutions"
-                      className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-text-white leading-tight hover:text-sky-blue transition-colors"
-                    >
+                    <p className="text-xs sm:text-sm font-semibold text-text-white leading-tight">
                       SN AnyDevice Software Solutions
-                      <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
-                    </a>
-                    <p className="text-[10px] sm:text-[11px] leading-tight mt-0.5 text-text-muted">
-                      operating as{" "}
-                      <a
-                        href="https://techcoderlabz.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Visit TechCoderLabz"
-                        className="inline-flex items-center gap-1 text-cyan-glow hover:underline underline-offset-2 decoration-cyan-glow/60"
-                      >
-                        TechCoderLabz
-                        <i className="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70" />
-                      </a>
+                    </p>
+                    <p className="text-[10px] sm:text-[11px] text-cyan-glow leading-tight mt-0.5">
+                      operating as TechCoderLabz
                     </p>
                   </div>
                 </div>
