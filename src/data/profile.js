@@ -9,7 +9,6 @@ export const PROFILE = {
   github: "https://github.com/Lokeshburade007",
   linkedin: "https://www.linkedin.com/in/lokesh-burade-385083202/",
   npm: "https://www.npmjs.com/~lokeshburade007",
-  instagram: "https://instagram.com/burade_lokesh007",
   resume: "/resume.pdf",
   availableForFreelance: true,
   yearsOfExperience: "1.5+",
@@ -48,11 +47,6 @@ export const SOCIAL_LINKS = [
     label: "npm",
     href: "https://www.npmjs.com/~lokeshburade007",
     icon: "fa-brands fa-npm",
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com/burade_lokesh007",
-    icon: "fa-brands fa-instagram",
   },
 ];
 
