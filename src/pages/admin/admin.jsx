@@ -1,9 +1,9 @@
-import React from 'react'
-
 const Admin = () => {
   return (
-    <div>Admin</div>
-  )
-}
+    <div className="min-h-screen flex items-center justify-center text-text-white text-2xl">
+      Admin
+    </div>
+  );
+};
 
-export default Admin
+export default Admin;

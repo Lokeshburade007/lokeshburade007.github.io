@@ -1,219 +1,166 @@
-import React from 'react'
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-import "../../css/projects.css"
-import image1 from "../../images/workIt.png"
-import image2 from "../../images/leaderBoard.png"
-import image3 from "../../images/0.png"
-import image4 from "../../images/1.png"
-import image5 from "../../images/10.png"
-import image6 from "../../images/2.png"
-import image7 from "../../images/5.png"
-import image8 from "../../images/6.png"
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import ProjectCard from "../../components/ProjectCard";
+import {
+  EARLIER_PROJECTS,
+  PROJECT_CATEGORIES,
+  PROJECTS,
+} from "../../data/projects";
 
 const Projects = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const matches = (project) =>
+    activeCategory === "All" || project.tags?.includes(activeCategory);
+
+  const recent = useMemo(() => PROJECTS.filter(matches), [activeCategory]);
+  const earlier = useMemo(
+    () => EARLIER_PROJECTS.filter(matches),
+    [activeCategory]
+  );
+
   return (
-    <div className="container">
-        <Navbar/>
-        <section className="projects" id="projects">
-        <div className="container-project">
-            <hr size="3" color="#00b7ff"/>
-            <br/>
-            <div className="title">
-                <h3>Featured Projects -</h3>
-                <h3>Projects are live hosted!</h3>
-                <a href="https://github.com/Lokeshburade007" target="_blank" className="btn" rel="noreferrer">View
-                    All</a>
-            </div>
-            <hr size="3" color="#00b7ff"/>
-            <br/>
-            <div className="projects-wrapper">
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://github.com/Lokeshburade007/WorkIT.git" target="_blank" rel="noreferrer">
-                            <img src={image1} alt="Project 1 : WorkIt Software Ecommerce Application" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 1 : WorkIt Software Ecommerce Application</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/WorkIT.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://github.com/Lokeshburade007/WorkIT.git" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i> 
-                            </a>
-                        </div>
-                    </div>
-                    <p>This is a Software based Ecommerce Web Application to a Lead for Company. <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>ReactJS, NodeJs, ExpressJS, TailwindCSS, Firebase, Figma.
-                    </p>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>Basically this is lead generation Application for TWJ IT SOLUTION. Employees will be used this Application to generate a lead from Clients for their company. Reward list is also given here.
-                    </p>
-                </div>
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://github.com/Lokeshburade007/LeaderBoard.git" target="_blank" rel="noreferrer">
-                            <img src={image2} alt="Project 2 : LeaderBoard Andriod Application" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 2 : LeaderBoard Andriod Application</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/LeaderBoard.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://github.com/Lokeshburade007/LeaderBoard.git" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>This is a Android Application to See the LeaderBoard By the Ranking based on reward System. <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>Flutter, Dart, AndroidStudio, Firebase, Figma.
-                    </p>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>This App will be used by the Employees of TWJ IT SOLUTION to see the LeaderBoard. LeaderBoard is all about the number of lead is generated by the Employees in a week or in a month or in a year.
-                    </p>
-                </div>
+    <div className="w-full">
+      <Navbar />
 
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://missing-people-identification.onrender.com/" target="_blank" rel="noreferrer">
-                            <img src={image3} alt="Projects 3 : Missing People Identification System using Deep learning" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 3 : Missing People Identification System using Deep learning</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/missing-people-identification.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://missing-people-identification.onrender.com/" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>This is a Our Final year Btech Project. <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>NodeJs, ExpressJS, EJS, TailwindCSS, FaceApi, Deeplearning Models, Twilio And MongoDB.
-                    </p>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b> Whenever a missing person complaint is registered with any police station, it is automatically entered into our database. If someone finds that missing person anywhere, they can search for them using our missing people identification web application and directly inform the nearest police station with a single click within the application.
-                    </p>
-                </div>
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://fanciful-swan-db72de.netlify.app" target="_blank" rel="noreferrer">
-                            <img src={image4} alt="Projects 4 : FlipKart Clone" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 4 : FlipKart Clone</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/Frontend-CSS-Project.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://fanciful-swan-db72de.netlify.app" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>This is a Flipkart Clone UI Design. I was started my journy towards web-development from this mini project.
-                        <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>Using HTML,CSS , JS & Boostrap
-                    </p>
-                </div>
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://shreekrushananagari.github.io/" target="_blank" rel="noreferrer">
-                            <img src={image5} alt="Project 5 : Realtime freelancing Website" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 5 : Realtime freelancing Website
-                        </h4>
-                        <div className="links">
-                            <a href="https://shreekrushananagari.github.io/" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://shreekrushananagari.github.io/" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>Shree Krushana Nagari , This is a Static realtime Website for layout Seller. I worked as a freelancer
-                        <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>Using HTML, Tailwind CSS & JS
-                    </p>
-                </div>
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-12 pb-10 text-center">
+        <p className="text-sm font-semibold uppercase tracking-wider text-sky-blue">
+          Selected Work
+        </p>
+        <h1 className="mt-3 text-4xl sm:text-5xl font-bold leading-tight">
+          Recent{" "}
+          <span className="bg-gradient-to-r from-sky-blue to-cyan-glow bg-clip-text text-transparent">
+            projects
+          </span>
+        </h1>
+        <p className="mt-4 max-w-2xl mx-auto text-text-muted">
+          A snapshot of production apps, SDKs, and platforms I've shipped at{" "}
+          <span className="text-text-white">
+            SN Any Device Software Solutions
+          </span>{" "}
+          (also operating as{" "}
+          <span className="text-text-white">TechCoderLabz</span>) and as
+          personal open-source work. Hover any preview to navigate between web,
+          store, and source views.
+        </p>
 
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://krupasindhuseva.org/" target="_blank" rel="noreferrer">
-                            <img src={image6} alt="Projects 6 : Realtime Project" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 6 : Realtime NGO Website</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/krupasindhuNGO.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href='https://krupasindhuseva.org/' target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>This is a Static realtime Website for Krupa sindhu seva. It is a Realtime NGO, I worked as a freelancer
-                        <br/> <b style={{color: "#00abf0"}}>Tech Stack:- </b>Using HTML, Tailwind CSS & JS
-                    </p>
-                </div>
-
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://my-personal-library-bookset.netlify.app/" target="_blank" rel="noreferrer">
-                            <img src={image7} alt="Projects 7 : UI Design Using Tailwind CSS" />
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 7 : UI Design Using Tailwind</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/My-Personal-Library.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://my-personal-library-bookset.netlify.app/" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>Using TailwindCSS, I was created this My personal Library UI design. I was created this mini project within 1 hour only!!</p>
-                </div>
-
-                <div className="project">
-                    <div className="img-container">
-                        <a href="https://github.com/Lokeshburade007/Crackit_Academy.git" target="_blank" rel="noreferrer">
-                            <img src={image8} alt="Projects 8 : Gate Learnning Platform (using PHP)"/>
-                        </a>
-                    </div>
-                    <div className="description">
-                        <h4>Project 8 : Gate Learning project</h4>
-                        <div className="links">
-                            <a href="https://github.com/Lokeshburade007/Crackit_Academy.git" target="_blank"
-                                rel="noreferrer">
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a href="https://github.com/Lokeshburade007/Crackit_Academy.git" target="_blank" rel="noreferrer">
-                                <i className="fa fa-globe"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p><b style={{color: "#00abf0"}}>Explaination:- </b>I was created from this Scratch. In this Project, I was used pure HTML, CSS ,JS , PHP and MYSQL and also used the concept of Backend. For backend i was used PHP and Mysql for Database</p>
-                </div>
-            </div>
+        <div className="mt-8 inline-flex flex-wrap justify-center gap-2 p-1 rounded-full bg-surface border border-border">
+          {PROJECT_CATEGORIES.map((cat) => {
+            const all = [...PROJECTS, ...EARLIER_PROJECTS];
+            const count =
+              cat === "All"
+                ? all.length
+                : all.filter((p) => p.tags?.includes(cat)).length;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeCategory === cat
+                    ? "bg-gradient-to-r from-sky-blue to-cyan-glow text-dark-bg"
+                    : "text-text-muted hover:text-text-white"
+                }`}
+              >
+                {cat}
+                <span className="ml-1.5 text-[11px] opacity-70">{count}</span>
+              </button>
+            );
+          })}
         </div>
-    </section>
-        <Footer/>
-    </div>
-  )
-}
+      </section>
 
-export default Projects
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-12">
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold">Recent Work</h2>
+            <p className="text-sm text-text-muted mt-1">
+              Production apps & SDKs from 2024 – 2025
+            </p>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-surface border border-border text-xs text-text-muted shrink-0">
+            {recent.length} project{recent.length === 1 ? "" : "s"}
+          </span>
+        </div>
+
+        {recent.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {recent.map((p) => (
+              <ProjectCard key={p.title} {...p} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-text-muted py-10">
+            No recent projects in this category.
+          </p>
+        )}
+      </section>
+
+      {earlier.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-16">
+          <div className="relative my-10 flex items-center gap-4">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-xs uppercase tracking-[0.2em] text-text-muted">
+              Earlier Projects
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold">
+                College & First Freelance Work
+              </h2>
+              <p className="text-sm text-text-muted mt-1">
+                The projects that started it all — internships, final-year
+                project, and early freelance builds.
+              </p>
+            </div>
+            <span className="px-3 py-1 rounded-full bg-surface border border-border text-xs text-text-muted shrink-0">
+              {earlier.length} project{earlier.length === 1 ? "" : "s"}
+            </span>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {earlier.map((p) => (
+              <ProjectCard key={p.title} {...p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-20">
+        <div className="rounded-3xl bg-gradient-to-br from-surface to-surface-2 border border-border p-8 sm:p-12 text-center">
+          <h3 className="text-2xl sm:text-3xl font-bold">
+            Want to be the next case study?
+          </h3>
+          <p className="mt-2 text-text-muted max-w-xl mx-auto">
+            I'm currently taking on freelance projects. Tell me about your idea
+            and let's see if we're a fit.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-sky-blue to-cyan-glow text-dark-bg font-semibold hover:opacity-90 transition-opacity"
+            >
+              <i className="fa-solid fa-rocket" /> Start a Project
+            </Link>
+            <a
+              href="https://github.com/Lokeshburade007"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-bg border border-border text-text-white font-semibold hover:border-sky-blue hover:text-sky-blue transition-colors"
+            >
+              <i className="fa-brands fa-github" /> View All on GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Projects;
