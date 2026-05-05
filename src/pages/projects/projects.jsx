@@ -37,13 +37,25 @@ const Projects = () => {
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-text-muted">
           A snapshot of production apps, SDKs, and platforms I've shipped at{" "}
-          <span className="text-text-white">
+          <a
+            href="https://sagarkothari88.one"
+            target="_blank"
+            rel="noreferrer"
+            className="text-text-white underline decoration-sky-blue/40 underline-offset-4 hover:decoration-sky-blue transition-colors"
+          >
             SN Any Device Software Solutions
-          </span>{" "}
+          </a>{" "}
           (also operating as{" "}
-          <span className="text-text-white">TechCoderLabz</span>) and as
-          personal open-source work. Hover any preview to navigate between web,
-          store, and source views.
+          <a
+            href="https://techcoderlabz.com"
+            target="_blank"
+            rel="noreferrer"
+            className="text-text-white underline decoration-cyan-glow/40 underline-offset-4 hover:decoration-cyan-glow transition-colors"
+          >
+            TechCoderLabz
+          </a>
+          ) and as personal open-source work. Hover any preview to navigate
+          between web, store, and source views.
         </p>
 
         <div className="mt-8 inline-flex flex-wrap justify-center gap-2 p-1 rounded-full bg-surface border border-border">
