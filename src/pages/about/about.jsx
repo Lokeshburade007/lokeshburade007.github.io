@@ -83,7 +83,7 @@ const About = () => {
                   </span>
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
                     <i className="fa-solid fa-location-dot text-sky-blue text-[8px]" />
-                    Pune
+                    Pune / Nagpur
                   </span>
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
                     <i className="fa-solid fa-graduation-cap text-sky-blue text-[8px]" />
@@ -131,6 +131,7 @@ const About = () => {
             </div>
           </div>
         </div>
+
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 mx-auto w-full max-w-[320px]">
             {QUICK_FACTS.map(({ label, value, icon }) => (
               <div
@@ -161,7 +162,11 @@ const About = () => {
           </h1>
           <div className="mt-6 space-y-4 text-text-muted leading-relaxed">
             <p>
-              I'm Lokesh, a Full Stack Developer based in Pune with{" "}
+              I'm Lokesh, a Full Stack Developer who splits time between{" "}
+              <span className="text-text-white font-medium">Pune</span> (where
+              my work team is) and{" "}
+              <span className="text-text-white font-medium">Nagpur</span> (my
+              hometown), with{" "}
               <span className="text-text-white font-medium">
                 {PROFILE.yearsOfExperience} years of professional experience
               </span>{" "}
@@ -232,7 +237,7 @@ const About = () => {
         <SectionHeader
           eyebrow="Experience"
           title="Work history"
-          sub="Building production apps remotely from Pune."
+          sub="Building production apps from Pune & Nagpur — hybrid + remote."
         />
         <div className="mt-10 relative">
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border md:left-1/2" />

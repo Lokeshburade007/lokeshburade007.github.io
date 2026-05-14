@@ -229,21 +229,25 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Floating: location chip (top-right) — hidden on mobile
-                  (location is in the always-visible panel) so the photo
-                  isn't cluttered on small screens. */}
+              {/* Floating: location chip — placed ABOVE the photo card on
+                  desktop so it never overlaps the face. Hidden on mobile;
+                  the always-visible bottom panel already shows location. */}
               <div
-                className="hidden md:block absolute -top-4 -right-4 bg-dark-bg border border-border rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 shadow-xl profile-card-float transition-all duration-500 group-hover:-translate-y-1 group-hover:border-sky-blue/40"
+                className="hidden md:flex absolute bottom-full right-0 mb-3 items-center gap-2.5 bg-dark-bg border border-border rounded-xl px-3 py-2 shadow-xl profile-card-float transition-all duration-500 group-hover:-translate-y-1 group-hover:border-sky-blue/40 whitespace-nowrap"
                 style={{ animationDelay: "1.2s" }}
               >
-                <p className="text-[10px] sm:text-xs text-text-muted">
-                  Based in
-                </p>
-                <p className="text-xs sm:text-sm font-semibold text-text-white flex items-center gap-1.5">
-                  <i className="fa-solid fa-location-dot text-sky-blue" />
-                  Pune, India
-                </p>
-                <p className="text-[10px] text-mint/90 mt-0.5">Hybrid · Open to remote</p>
+                <i className="fa-solid fa-location-dot text-sky-blue text-sm" />
+                <div className="leading-tight">
+                  <p className="text-[10px] uppercase tracking-wider text-text-muted">
+                    Based in
+                  </p>
+                  <p className="text-xs font-semibold text-text-white">
+                    {PROFILE.workCity} · {PROFILE.homeCity}
+                  </p>
+                </div>
+                <span className="px-1.5 py-0.5 rounded bg-mint/15 border border-mint/40 text-mint text-[10px] font-medium">
+                  Hybrid
+                </span>
               </div>
 
               {/* Floating: stats chip (mid-right, only on hover) */}

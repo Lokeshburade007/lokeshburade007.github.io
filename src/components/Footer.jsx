@@ -99,8 +99,8 @@ const Footer = () => {
             & Tailwind CSS.
           </p>
           <p className="flex items-center gap-1">
-            Built with <i className="fas fa-heart text-sky-blue" /> in Pune,
-            India
+            Built with <i className="fas fa-heart text-sky-blue" /> in Pune &
+            Nagpur, India
           </p>
         </div>
       </div>

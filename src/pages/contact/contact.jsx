@@ -162,9 +162,10 @@ const Contact = () => {
             {PROFILE.location}
           </h3>
           <p className="mt-3 text-text-muted text-sm">
-            Working hybrid with my Pune team and remotely with clients
-            worldwide. Comfortable with async collaboration across time zones —
-            most clients are in IST, EST, or PST.
+            Splitting time between Pune (where my work team is) and Nagpur
+            (my hometown), and working remotely with clients worldwide.
+            Comfortable with async collaboration across time zones — most
+            clients are in IST, EST, or PST.
           </p>
 
           <div className="mt-6 space-y-4 text-sm">
