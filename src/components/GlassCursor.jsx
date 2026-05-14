@@ -132,7 +132,8 @@ const GlassCursor = () => {
         const p = trailState[trailIdx];
         p.x = mouseX;
         p.y = mouseY;
-        p.hue = 200 + t * 120; // matches ring's hue range
+        // Blue (210°) → Green (120°) → Orange (30°). Descending hue arc.
+        p.hue = 210 - t * 180; // matches ring's hue range
         p.born = ts;
         p.alive = true;
         const el = trailEls[trailIdx];

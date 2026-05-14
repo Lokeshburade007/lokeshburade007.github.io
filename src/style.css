@@ -119,10 +119,11 @@ body {
 
 .glass-cursor {
   /* --cursor-speed is set every frame by GlassCursor.jsx, range 0–1.
-     Hue starts cyan (200°) and shifts through magenta toward warm pink
-     (320°) as the cursor accelerates. */
+     Hue arcs blue (210°) → green (120°) → orange (30°) as the cursor
+     accelerates — descending so it stays in the warm/cool spectrum we
+     want and avoids passing through magenta/pink. */
   --cursor-speed: 0;
-  --cursor-hue: calc(200 + var(--cursor-speed) * 120);
+  --cursor-hue: calc(210 - var(--cursor-speed) * 180);
 }
 
 .glass-cursor-ring {
