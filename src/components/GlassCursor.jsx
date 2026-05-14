@@ -52,7 +52,7 @@ const GlassCursor = () => {
     let visible = false;
     let raf = 0;
 
-    // Pre-create trail particle elements (cheap pool — no React re-renders).
+    // Pre-create trail segment elements (cheap pool — no React re-renders).
     const trailEls = [];
     const trailState = [];
     for (let i = 0; i < TRAIL_COUNT; i++) {
@@ -61,10 +61,23 @@ const GlassCursor = () => {
       el.style.opacity = "0";
       trailContainer.appendChild(el);
       trailEls.push(el);
-      trailState.push({ x: 0, y: 0, hue: 200, born: -Infinity, alive: false });
+      trailState.push({
+        x: 0,
+        y: 0,
+        angle: 0,
+        length: 0,
+        thickness: 6,
+        hue: 200,
+        born: -Infinity,
+        alive: false,
+      });
     }
     let trailIdx = 0;
     let lastSpawn = 0;
+    // Anchor for the *start* of the next line segment — updates after every
+    // spawn so each segment connects to the next, forming a continuous line.
+    let prevSpawnX = mouseX;
+    let prevSpawnY = mouseY;
 
     const showCursor = () => {
       if (!visible) {
@@ -122,46 +135,67 @@ const GlassCursor = () => {
       }) rotate(${-angle}rad)`;
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
 
-      // ---- Color-leak trail ----
-      // Only kicks in past TRAIL_SPAWN_THRESHOLD (genuine fast movement).
-      // Particles are LIGHT — high lightness, low-to-mid alpha, soft blur —
-      // so the trail reads as an airy color wash, not a heavy paint stroke.
+      // ---- Line-segment color trail ----
+      // Each spawn lays down a thin line segment from the previous spawn
+      // anchor to the current cursor position. Successive segments join
+      // end-to-end, producing a continuous streak when moving fast.
       if (visible && t > TRAIL_SPAWN_THRESHOLD) {
-        // Boost intensity is the speed *above* threshold, normalized 0..1
+        // Boost = speed above threshold, normalized 0..1
         const boost = (t - TRAIL_SPAWN_THRESHOLD) / (1 - TRAIL_SPAWN_THRESHOLD);
-        const interval = Math.max(14, 32 - boost * 18);
+        const interval = Math.max(12, 26 - boost * 14);
         if (ts - lastSpawn >= interval) {
           lastSpawn = ts;
-          const p = trailState[trailIdx];
-          p.x = mouseX;
-          p.y = mouseY;
-          // Blue (210°) → Green (120°) → Orange (30°). Descending hue arc.
-          p.hue = 210 - t * 180;
-          p.born = ts;
-          p.alive = true;
-          const el = trailEls[trailIdx];
-          const startSize = 16 + boost * 22; // 16 → 38 px (smaller, tighter)
-          el.style.width = `${startSize}px`;
-          el.style.height = `${startSize}px`;
-          el.style.filter = `blur(${(2 + boost * 2).toFixed(1)}px)`;
-          // Very-very-light pastel core. High lightness (92%), low saturation,
-          // very low alpha — reads as a faint colored mist over the dark UI
-          // rather than a saturated paint daub.
-          const coreAlpha = (0.16 + boost * 0.14).toFixed(2); // 0.16 → 0.30
-          const midAlpha = (0.07 + boost * 0.07).toFixed(2); // 0.07 → 0.14
-          el.style.background = `radial-gradient(circle, hsla(${p.hue.toFixed(
-            0
-          )}, 60%, 92%, ${coreAlpha}) 0%, hsla(${(p.hue + 24).toFixed(
-            0
-          )}, 55%, 90%, ${midAlpha}) 50%, hsla(${(p.hue - 16).toFixed(
-            0
-          )}, 55%, 88%, 0) 80%)`;
-          trailIdx = (trailIdx + 1) % TRAIL_COUNT;
+          const sx = prevSpawnX;
+          const sy = prevSpawnY;
+          const ex = mouseX;
+          const ey = mouseY;
+          const segDx = ex - sx;
+          const segDy = ey - sy;
+          const segLen = Math.hypot(segDx, segDy);
+
+          if (segLen >= 4) {
+            const p = trailState[trailIdx];
+            p.x = (sx + ex) / 2; // midpoint of segment
+            p.y = (sy + ey) / 2;
+            p.angle = Math.atan2(segDy, segDx);
+            p.length = segLen;
+            p.thickness = 4 + boost * 6; // 4 → 10 px stroke
+            // Blue (210°) → Green (140°). Cool palette only.
+            p.hue = 210 - t * 70;
+            p.born = ts;
+            p.alive = true;
+
+            const el = trailEls[trailIdx];
+            el.style.width = `${p.length.toFixed(1)}px`;
+            el.style.height = `${p.thickness.toFixed(1)}px`;
+            el.style.borderRadius = `${(p.thickness / 2).toFixed(1)}px`;
+            el.style.filter = `blur(${(1 + boost * 1.5).toFixed(1)}px)`;
+            // Very-very-light pastel — soft fall-off at the segment's two
+            // ends so consecutive segments blend into a smooth line.
+            const coreAlpha = (0.18 + boost * 0.18).toFixed(2);
+            el.style.background = `linear-gradient(90deg,
+              hsla(${p.hue.toFixed(0)}, 60%, 92%, 0) 0%,
+              hsla(${p.hue.toFixed(0)}, 60%, 92%, ${coreAlpha}) 25%,
+              hsla(${(p.hue + 24).toFixed(0)}, 55%, 92%, ${coreAlpha}) 75%,
+              hsla(${(p.hue + 24).toFixed(0)}, 55%, 90%, 0) 100%)`;
+            trailIdx = (trailIdx + 1) % TRAIL_COUNT;
+          }
+
+          // Always advance the anchor — even if segLen was too short — so
+          // the next segment starts from the latest point and we never
+          // accumulate a long stale gap.
+          prevSpawnX = ex;
+          prevSpawnY = ey;
         }
+      } else {
+        // While slow / idle, keep the anchor glued to the cursor so the
+        // FIRST segment after a fast move is short, not a giant slingshot.
+        prevSpawnX = mouseX;
+        prevSpawnY = mouseY;
       }
 
-      // Decay every alive particle. Smooth fade across the whole lifetime
-      // (no held plateau) so the trail doesn't pile up visually.
+      // Decay every alive segment. Pure opacity fade — no scale stretch
+      // (which would distort the line). Pill rotation is preserved.
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const p = trailState[i];
         if (!p.alive) continue;
@@ -173,11 +207,10 @@ const GlassCursor = () => {
         }
         const u = age / TRAIL_LIFE_MS; // 0..1
         const alpha = 1 - u;
-        const scale = 1 + u * 1.4;
         trailEls[i].style.opacity = alpha.toFixed(3);
-        trailEls[i].style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(
-          2
-        )})`;
+        trailEls[
+          i
+        ].style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-50%, -50%) rotate(${p.angle}rad)`;
       }
 
       raf = requestAnimationFrame(tick);

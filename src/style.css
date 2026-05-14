@@ -119,11 +119,10 @@ body {
 
 .glass-cursor {
   /* --cursor-speed is set every frame by GlassCursor.jsx, range 0–1.
-     Hue arcs blue (210°) → green (120°) → orange (30°) as the cursor
-     accelerates — descending so it stays in the warm/cool spectrum we
-     want and avoids passing through magenta/pink. */
+     Hue arcs blue (210°) → green (140°) — cool palette only, no warm
+     tones (no orange / yellow / red). */
   --cursor-speed: 0;
-  --cursor-hue: calc(210 - var(--cursor-speed) * 180);
+  --cursor-hue: calc(210 - var(--cursor-speed) * 70);
 }
 
 .glass-cursor-ring {
@@ -197,17 +196,16 @@ body {
   transition: opacity 220ms ease-out;
 }
 
-/* Color-leak trail particles — created imperatively by GlassCursor.jsx and
-   positioned/sized/colored per frame. Soft additive glow that bleeds the
-   cursor's current speed-hue across the UI when the user moves quickly. */
+/* Color-leak trail segments — line segments laid down between successive
+   spawn positions to form a continuous streak when moving fast. Width,
+   height (thickness), background gradient, blur and pill rounding are all
+   set inline by GlassCursor.jsx per particle. */
 .glass-cursor-trail {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 9999px;
   pointer-events: none;
   mix-blend-mode: screen;
-  filter: blur(2px);
   will-change: transform, opacity;
 }
 
