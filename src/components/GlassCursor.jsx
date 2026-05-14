@@ -1,32 +1,33 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Glass-circle cursor follower.
+ * Glass-circle cursor with a neon canvas trail.
  *
- *  • a small dot that snaps to the cursor for precision
- *  • a glass ring that lags behind for a polished trail
- *  • a pool of colored "leak" particles that spawn behind the cursor
- *    when it moves fast — they pulse the same speed-driven hue and fade
- *    away within ~600ms so the trail bleeds color across the UI
+ * Layers (bottom → top):
+ *   • <canvas> covering the viewport — receives the neon stroke each frame
+ *     and fades older strokes via destination-out compositing. This is the
+ *     only way to guarantee a fully continuous line with no gaps at corners
+ *     (DOM div segments leave kinks when the angle changes between frames).
+ *   • Glass ring — soft frosted disc that lags behind the cursor when slow,
+ *     fades out as the cursor speeds up.
+ *   • Tiny dot at the cursor tip for precision.
  *
- * The ring grows on `.is-hovering` (CSS handles the size transition).
  * Hidden on touch devices and when the user prefers reduced motion.
- *
- * Class names match src/style.css:
- *   .glass-cursor / .glass-cursor-ring / .glass-cursor-dot /
- *   .glass-cursor-trail
  */
 const INTERACTIVE_SELECTOR =
   "a, button, [role='button'], input, textarea, select, label, summary";
 
-const TRAIL_COUNT = 18;
-const TRAIL_LIFE_MS = 550;
-const TRAIL_SPAWN_THRESHOLD = 0.32; // 0..1 — only fires on genuinely fast moves
+// How quickly the canvas fades each frame. Higher = trail evaporates faster.
+const TRAIL_FADE_ALPHA = 0.085;
+// Speed (0–1) at which we start drawing the colored neon trail. Below this
+// the cursor reads as the calm glass ring + dot only.
+const TRAIL_THRESHOLD = 0.28;
 
 const GlassCursor = () => {
   const wrapRef = useRef(null);
+  const canvasRef = useRef(null);
+  const ringRef = useRef(null);
   const dotRef = useRef(null);
-  const trailContainerRef = useRef(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,46 +35,39 @@ const GlassCursor = () => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const wrap = wrapRef.current;
+    const canvas = canvasRef.current;
+    const ring = ringRef.current;
     const dot = dotRef.current;
-    const trailContainer = trailContainerRef.current;
-    if (!wrap || !dot || !trailContainer) return;
+    if (!wrap || !canvas || !ring || !dot) return;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const sizeCanvas = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // logical px coords
+    };
+    sizeCanvas();
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
     let lastMouseX = mouseX;
     let lastMouseY = mouseY;
+    // Stroke anchor — the START of the next line segment we draw. Updated
+    // every frame to the current mouse position so consecutive frames'
+    // segments share an endpoint exactly (= no gap, no kink).
+    let strokeX = mouseX;
+    let strokeY = mouseY;
+    let ringX = mouseX;
+    let ringY = mouseY;
     let dotX = mouseX;
     let dotY = mouseY;
     let speed = 0;
     let visible = false;
     let raf = 0;
-
-    // Pre-create trail segment elements (cheap pool — no React re-renders).
-    const trailEls = [];
-    const trailState = [];
-    for (let i = 0; i < TRAIL_COUNT; i++) {
-      const el = document.createElement("div");
-      el.className = "glass-cursor-trail";
-      el.style.opacity = "0";
-      trailContainer.appendChild(el);
-      trailEls.push(el);
-      trailState.push({
-        x: 0,
-        y: 0,
-        angle: 0,
-        length: 0,
-        thickness: 6,
-        hue: 200,
-        born: -Infinity,
-        alive: false,
-      });
-    }
-    let trailIdx = 0;
-    let lastSpawn = 0;
-    // Anchor for the *start* of the next line segment — updates after every
-    // spawn so each segment connects to the next, forming a continuous line.
-    let prevSpawnX = mouseX;
-    let prevSpawnY = mouseY;
 
     const showCursor = () => {
       if (!visible) {
@@ -84,6 +78,12 @@ const GlassCursor = () => {
     const hideCursor = () => {
       visible = false;
       wrap.style.opacity = "0";
+      // Clear the canvas so the trail doesn't reappear if the cursor returns
+      // to the same spot it left from.
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
     };
 
     const onMove = (e) => {
@@ -103,13 +103,17 @@ const GlassCursor = () => {
       }
     };
 
-    const tick = (ts) => {
-      // Position smoothing — only the dot tracks the cursor; the big glass
-      // ring has been removed (left a circular hover artifact users disliked).
+    const onResize = () => sizeCanvas();
+    window.addEventListener("resize", onResize);
+
+    const tick = () => {
+      // Position smoothing
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
       dotX += (mouseX - dotX) * 0.55;
       dotY += (mouseY - dotY) * 0.55;
 
-      // Velocity (low-pass filtered, faster attack than decay)
+      // Velocity
       const dx = mouseX - lastMouseX;
       const dy = mouseY - lastMouseY;
       const inst = Math.sqrt(dx * dx + dy * dy);
@@ -117,97 +121,61 @@ const GlassCursor = () => {
       lastMouseY = mouseY;
       const k = inst > speed ? 0.35 : 0.08;
       speed += (inst - speed) * k;
-
       const t = Math.max(0, Math.min(1, speed / 50));
       wrap.style.setProperty("--cursor-speed", t.toFixed(3));
 
+      // ----- Canvas trail -----
+      // 1) Fade the entire existing trail by reducing alpha — uses
+      //    destination-out so we lower opacity without darkening the page
+      //    behind the canvas.
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = `rgba(0, 0, 0, ${TRAIL_FADE_ALPHA})`;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // 2) Draw the new segment from previous stroke anchor to current mouse.
+      //    Because anchor advances every frame, segments share endpoints
+      //    exactly — the line is continuous, no gaps, no kinks.
+      if (visible && t > TRAIL_THRESHOLD) {
+        const boost = (t - TRAIL_THRESHOLD) / (1 - TRAIL_THRESHOLD);
+        // Cyan (190°) → Green (150°). Greenish-blue neon range only.
+        const hue = 190 - t * 40;
+        const stroke = 1.5 + boost * 2.5; // 1.5 → 4 px true core
+        const glow = 8 + boost * 18;
+
+        ctx.globalCompositeOperation = "lighter"; // additive bloom
+
+        // Outer soft halo (wide, low-alpha)
+        ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 0.35)`;
+        ctx.lineWidth = stroke + 6;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.shadowBlur = glow;
+        ctx.shadowColor = `hsl(${hue}, 100%, 60%)`;
+        ctx.beginPath();
+        ctx.moveTo(strokeX, strokeY);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.stroke();
+
+        // Bright inner core (tight, high-alpha)
+        ctx.strokeStyle = `hsl(${hue}, 100%, 88%)`;
+        ctx.lineWidth = stroke;
+        ctx.shadowBlur = glow * 0.4;
+        ctx.beginPath();
+        ctx.moveTo(strokeX, strokeY);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.stroke();
+
+        ctx.shadowBlur = 0;
+      }
+
+      // Anchor advances regardless of whether we drew — ensures the trail
+      // never has a leftover stale start position.
+      strokeX = mouseX;
+      strokeY = mouseY;
+
+      // Ring & dot
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
-
-      // ---- Line-segment color trail ----
-      // Each spawn lays down a thin line segment from the previous spawn
-      // anchor to the current cursor position. Successive segments join
-      // end-to-end, producing a continuous streak when moving fast.
-      if (visible && t > TRAIL_SPAWN_THRESHOLD) {
-        // Boost = speed above threshold, normalized 0..1
-        const boost = (t - TRAIL_SPAWN_THRESHOLD) / (1 - TRAIL_SPAWN_THRESHOLD);
-        const interval = Math.max(12, 26 - boost * 14);
-        if (ts - lastSpawn >= interval) {
-          lastSpawn = ts;
-          const sx = prevSpawnX;
-          const sy = prevSpawnY;
-          const ex = mouseX;
-          const ey = mouseY;
-          const segDx = ex - sx;
-          const segDy = ey - sy;
-          const segLen = Math.hypot(segDx, segDy);
-
-          if (segLen >= 4) {
-            const p = trailState[trailIdx];
-            p.x = (sx + ex) / 2; // midpoint of segment
-            p.y = (sy + ey) / 2;
-            p.angle = Math.atan2(segDy, segDx);
-            p.length = segLen;
-            // Neon stroke — thinner core, the halo glow gives it visual weight
-            p.thickness = 2 + boost * 3; // 2 → 5 px true stroke
-            // Cyan (190°) → Green (150°). Pure greenish-blue neon range only.
-            p.hue = 190 - t * 40;
-            p.born = ts;
-            p.alive = true;
-
-            const el = trailEls[trailIdx];
-            el.style.width = `${p.length.toFixed(1)}px`;
-            el.style.height = `${p.thickness.toFixed(1)}px`;
-            el.style.borderRadius = `${(p.thickness / 2).toFixed(1)}px`;
-            el.style.filter = "none";
-            // Solid bright neon core — high saturation + high lightness.
-            const hue = p.hue.toFixed(0);
-            el.style.background = `linear-gradient(90deg,
-              hsla(${hue}, 100%, 80%, 0) 0%,
-              hsl(${hue}, 100%, 78%) 22%,
-              hsl(${hue}, 100%, 82%) 50%,
-              hsl(${hue}, 100%, 78%) 78%,
-              hsla(${hue}, 100%, 80%, 0) 100%)`;
-            // Layered neon halo: tight bright bloom + wider soft glow.
-            const glow = (8 + boost * 14).toFixed(0);
-            const farGlow = (16 + boost * 24).toFixed(0);
-            el.style.boxShadow = `
-              0 0 ${(p.thickness * 1.5).toFixed(0)}px hsl(${hue}, 100%, 70%),
-              0 0 ${glow}px hsla(${hue}, 100%, 60%, 0.85),
-              0 0 ${farGlow}px hsla(${hue}, 100%, 55%, 0.45)`;
-            trailIdx = (trailIdx + 1) % TRAIL_COUNT;
-          }
-
-          // Always advance the anchor — even if segLen was too short — so
-          // the next segment starts from the latest point and we never
-          // accumulate a long stale gap.
-          prevSpawnX = ex;
-          prevSpawnY = ey;
-        }
-      } else {
-        // While slow / idle, keep the anchor glued to the cursor so the
-        // FIRST segment after a fast move is short, not a giant slingshot.
-        prevSpawnX = mouseX;
-        prevSpawnY = mouseY;
-      }
-
-      // Decay every alive segment. Pure opacity fade — no scale stretch
-      // (which would distort the line). Pill rotation is preserved.
-      for (let i = 0; i < TRAIL_COUNT; i++) {
-        const p = trailState[i];
-        if (!p.alive) continue;
-        const age = ts - p.born;
-        if (age >= TRAIL_LIFE_MS) {
-          p.alive = false;
-          trailEls[i].style.opacity = "0";
-          continue;
-        }
-        const u = age / TRAIL_LIFE_MS; // 0..1
-        const alpha = 1 - u;
-        trailEls[i].style.opacity = alpha.toFixed(3);
-        trailEls[
-          i
-        ].style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-50%, -50%) rotate(${p.angle}rad)`;
-      }
 
       raf = requestAnimationFrame(tick);
     };
@@ -221,12 +189,12 @@ const GlassCursor = () => {
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", onResize);
       document.removeEventListener("mouseleave", hideCursor);
       document.removeEventListener("mouseenter", showCursor);
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseout", onOut);
       cancelAnimationFrame(raf);
-      trailEls.forEach((el) => el.remove());
     };
   }, []);
 
@@ -237,11 +205,11 @@ const GlassCursor = () => {
       style={{ opacity: 0 }}
       aria-hidden="true"
     >
-      {/* Trail segments render here (created imperatively in useEffect) */}
-      <div
-        ref={trailContainerRef}
+      <canvas
+        ref={canvasRef}
         className="absolute inset-0 pointer-events-none"
       />
+      <div ref={ringRef} className="glass-cursor-ring" />
       <div ref={dotRef} className="glass-cursor-dot absolute top-0 left-0" />
     </div>
   );

@@ -129,6 +129,40 @@ body {
   transition: opacity 220ms ease-out;
 }
 
+/* Glass ring — soft frosted glass disc that lags behind the cursor at rest.
+   Pure white-ish glass (no hue) so it reads as "neutral cursor presence".
+   Fades out when the cursor moves fast — at that point the neon line trail
+   takes over and the ring would just be visual noise. */
+.glass-cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -1.125rem 0 0 -1.125rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px) saturate(140%);
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.12),
+    inset 0 0 10px rgba(255, 255, 255, 0.08);
+  /* Speed-driven fade: visible when slow, gone when ripping across the page */
+  opacity: calc(1 - var(--cursor-speed, 0) * 1.4);
+  transition: width 240ms ease-out, height 240ms ease-out,
+    margin 240ms ease-out;
+  will-change: transform, opacity;
+}
+
+.glass-cursor.is-hovering .glass-cursor-ring {
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: -1.625rem 0 0 -1.625rem;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .glass-cursor-dot {
   width: 6px;
   height: 6px;
