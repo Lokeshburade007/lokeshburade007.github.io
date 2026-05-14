@@ -56,80 +56,82 @@ const About = () => {
               />
 
               {/* Overlay revealing key facts — visible by default on mobile,
-                  hover-revealed on md+ (touch devices have no hover) */}
-              <div className="absolute inset-0 flex flex-col justify-end p-5 bg-gradient-to-t from-dark-bg via-dark-bg/85 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-6 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                <div className="flex items-center gap-2">
-                  <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
+                  hover-revealed on md+ (touch devices have no hover).
+                  Compact text/padding so the photo isn't smothered. */}
+              <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 bg-gradient-to-t from-dark-bg via-dark-bg/85 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-6 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                <div className="flex items-center gap-1.5">
+                  <span className="relative inline-flex w-1.5 h-1.5 rounded-full text-mint pulse-dot">
                     <span className="absolute inset-0 rounded-full bg-mint" />
                   </span>
-                  <p className="text-[11px] uppercase tracking-wider text-mint font-medium">
+                  <p className="text-[9px] uppercase tracking-wider text-mint font-medium">
                     Open for freelance
                   </p>
                 </div>
-                <p className="mt-2 text-lg font-bold text-text-white">
+                <p className="mt-1 text-sm font-bold text-text-white leading-tight">
                   {PROFILE.name}
                 </p>
-                <p className="text-xs text-sky-blue">
+                <p className="text-[10px] text-sky-blue leading-tight">
                   {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
                 </p>
 
-                <div className="mt-3 grid grid-cols-2 gap-1.5 text-[11px]">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-cube text-sky-blue" /> 6+ apps
+                <div className="mt-2 grid grid-cols-2 gap-1 text-[9px]">
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
+                    <i className="fa-solid fa-cube text-sky-blue text-[8px]" /> 6+ apps
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-brands fa-npm text-red-400" /> 3 SDKs
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
+                    <i className="fa-brands fa-npm text-red-400 text-[8px]" /> 3 SDKs
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-location-dot text-sky-blue" />{" "}
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
+                    <i className="fa-solid fa-location-dot text-sky-blue text-[8px]" />
                     Pune
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-graduation-cap text-sky-blue" />{" "}
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
+                    <i className="fa-solid fa-graduation-cap text-sky-blue text-[8px]" />
                     9.04 CGPA
                   </span>
                 </div>
 
-                <div className="mt-4 flex items-center gap-2">
+                <div className="mt-2.5 flex items-center gap-1.5">
                   <a
                     href={`mailto:${PROFILE.email}`}
                     aria-label="Email"
-                    className="grid place-items-center w-8 h-8 rounded-md bg-surface/80 border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
+                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
                   >
-                    <i className="fa-solid fa-envelope text-xs" />
+                    <i className="fa-solid fa-envelope" />
                   </a>
                   <a
                     href={`https://wa.me/${PROFILE.whatsapp}`}
                     target="_blank"
                     rel="noreferrer"
                     aria-label="WhatsApp"
-                    className="grid place-items-center w-8 h-8 rounded-md bg-mint/15 border border-mint/40 text-mint hover:bg-mint hover:text-dark-bg transition-colors backdrop-blur"
+                    className="grid place-items-center w-6 h-6 rounded bg-mint/15 border border-mint/40 text-mint text-[10px] hover:bg-mint hover:text-dark-bg transition-colors backdrop-blur"
                   >
-                    <i className="fa-brands fa-whatsapp text-xs" />
+                    <i className="fa-brands fa-whatsapp" />
                   </a>
                   <a
                     href={PROFILE.linkedin}
                     target="_blank"
                     rel="noreferrer"
                     aria-label="LinkedIn"
-                    className="grid place-items-center w-8 h-8 rounded-md bg-surface/80 border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
+                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
                   >
-                    <i className="fa-brands fa-linkedin text-xs" />
+                    <i className="fa-brands fa-linkedin" />
                   </a>
                   <a
                     href={PROFILE.github}
                     target="_blank"
                     rel="noreferrer"
                     aria-label="GitHub"
-                    className="grid place-items-center w-8 h-8 rounded-md bg-surface/80 border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
+                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
                   >
-                    <i className="fa-brands fa-github text-xs" />
+                    <i className="fa-brands fa-github" />
                   </a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 mx-auto w-full max-w-[260px] sm:max-w-[320px]">
+        </div>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 mx-auto w-full max-w-[320px]">
             {QUICK_FACTS.map(({ label, value, icon }) => (
               <div
                 key={label}

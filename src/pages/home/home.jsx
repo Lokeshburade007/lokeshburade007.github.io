@@ -149,35 +149,36 @@ const Home = () => {
                 />
 
                 {/* Bottom-up reveal panel — visible by default on mobile,
-                    hover-revealed on md+ (touch devices have no hover) */}
-                <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                  <div className="flex items-center gap-2">
-                    <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
+                    hover-revealed on md+ (touch devices have no hover).
+                    Compact text/padding so the image stays prominent. */}
+                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative inline-flex w-1.5 h-1.5 rounded-full text-mint pulse-dot">
                       <span className="absolute inset-0 rounded-full bg-mint" />
                     </span>
-                    <p className="text-xs uppercase tracking-wider text-mint font-medium">
+                    <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-mint font-medium">
                       Available for freelance
                     </p>
                   </div>
-                  <h3 className="mt-2 text-xl font-bold text-text-white">
+                  <h3 className="mt-1 text-sm sm:text-base font-bold text-text-white leading-tight">
                     {PROFILE.name}
                   </h3>
-                  <p className="text-sm text-sky-blue">
+                  <p className="text-[11px] text-sky-blue leading-tight">
                     {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
                   </p>
 
-                  <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted">
-                      <i className="fa-solid fa-location-dot text-sky-blue" />
+                  <div className="mt-2 flex flex-wrap gap-1 text-[10px]">
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
+                      <i className="fa-solid fa-location-dot text-sky-blue text-[9px]" />
                       {PROFILE.location}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface border border-border text-text-muted">
-                      <i className="fa-solid fa-briefcase text-sky-blue" />
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
+                      <i className="fa-solid fa-briefcase text-sky-blue text-[9px]" />
                       SN AnyDevice · TechCoderLabz
                     </span>
                   </div>
 
-                  <div className="mt-4 flex items-center gap-2">
+                  <div className="mt-2.5 flex items-center gap-1.5">
                     {SOCIAL_LINKS.map(({ href, icon, label }) => (
                       <a
                         key={label}
@@ -185,7 +186,7 @@ const Home = () => {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={label}
-                        className="grid place-items-center w-9 h-9 rounded-lg bg-surface border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors"
+                        className="grid place-items-center w-7 h-7 rounded-md bg-surface border border-border text-text-muted text-[11px] hover:text-sky-blue hover:border-sky-blue transition-colors"
                       >
                         <i className={icon} />
                       </a>
@@ -195,7 +196,7 @@ const Home = () => {
                       target="_blank"
                       rel="noreferrer"
                       aria-label="WhatsApp"
-                      className="grid place-items-center w-9 h-9 rounded-lg bg-mint/15 border border-mint/40 text-mint hover:bg-mint hover:text-dark-bg transition-colors"
+                      className="grid place-items-center w-7 h-7 rounded-md bg-mint/15 border border-mint/40 text-mint text-[11px] hover:bg-mint hover:text-dark-bg transition-colors"
                     >
                       <i className="fa-brands fa-whatsapp" />
                     </a>
