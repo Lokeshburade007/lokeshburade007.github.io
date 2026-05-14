@@ -82,7 +82,28 @@ const GlassCursor = () => {
       dotX += (mouseX - dotX) * 0.55;
       dotY += (mouseY - dotY) * 0.55;
 
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      // Speed = pixels travelled this frame, low-pass filtered.
+      const dx = mouseX - lastMouseX;
+      const dy = mouseY - lastMouseY;
+      const inst = Math.sqrt(dx * dx + dy * dy);
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+      // Faster attack on speed-up, slower decay on slow-down — gives a
+      // snappy color burst that lingers slightly after the user stops.
+      const k = inst > speed ? 0.35 : 0.08;
+      speed += (inst - speed) * k;
+
+      // Map to 0-1 range. ~50px/frame ≈ very fast flick on a 60fps screen.
+      const t = Math.max(0, Math.min(1, speed / 50));
+      wrap.style.setProperty("--cursor-speed", t.toFixed(3));
+      // Stretch the ring along the motion vector when moving fast.
+      const len = Math.hypot(dx, dy);
+      const angle = len > 0.5 ? Math.atan2(dy, dx) : 0;
+      const stretch = 1 + t * 0.6; // up to 1.6× along motion axis
+
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) rotate(${angle}rad) scale(${stretch}, ${
+        2 - stretch
+      }) rotate(${-angle}rad)`;
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
       raf = requestAnimationFrame(tick);
     };
