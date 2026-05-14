@@ -57,7 +57,7 @@ const Home = () => {
       <Navbar />
 
       <section className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-10 lg:pt-16 pb-20 grid lg:grid-cols-[1.6fr_1fr] gap-12 items-center">
           <div>
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/30 text-mint text-xs font-medium">
               <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
@@ -129,7 +129,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="relative group select-none">
+          <div className="relative group select-none mx-auto w-full max-w-[260px] sm:max-w-[280px] lg:max-w-[300px]">
             {/* Soft outer glow */}
             <div className="absolute -inset-8 bg-gradient-to-tr from-sky-blue/25 via-cyan-glow/15 to-mint/10 rounded-[2rem] blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
 

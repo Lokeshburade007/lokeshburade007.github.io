@@ -115,6 +115,58 @@ body {
   background-clip: padding-box;
 }
 
+/* ---------- Glass cursor (desktop only) ----------------------------------- */
+
+.glass-cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: -1.25rem 0 0 -1.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(3px) saturate(140%);
+  -webkit-backdrop-filter: blur(3px) saturate(140%);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.18),
+    inset 0 0 14px rgba(255, 255, 255, 0.05);
+  transition: width 280ms ease-out, height 280ms ease-out,
+    margin 280ms ease-out, background-color 280ms ease-out,
+    border-color 280ms ease-out, box-shadow 280ms ease-out;
+}
+
+.glass-cursor.is-hovering .glass-cursor-ring {
+  width: 4rem;
+  height: 4rem;
+  margin: -2rem 0 0 -2rem;
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 36px rgba(56, 189, 248, 0.35),
+    inset 0 0 16px rgba(56, 189, 248, 0.18);
+}
+
+.glass-cursor {
+  transition: opacity 220ms ease-out;
+}
+
+.glass-cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 9999px;
+  background: var(--color-sky-blue);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.65);
+  transition: opacity 220ms ease-out;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .glass-cursor,
+  .glass-cursor-dot {
+    display: none !important;
+  }
+}
+
 .gradient-border::before {
   content: "";
   position: absolute;

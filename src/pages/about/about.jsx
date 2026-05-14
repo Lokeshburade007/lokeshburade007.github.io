@@ -38,8 +38,9 @@ const About = () => {
     <div className="w-full">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-12 pb-16 grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
-        <div className="relative group select-none">
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-12 pb-16 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 items-start">
+        <div className="w-full">
+        <div className="relative group select-none mx-auto w-full max-w-[240px]">
           <div className="absolute -inset-6 bg-gradient-to-tr from-sky-blue/20 via-cyan-glow/15 to-mint/10 rounded-[2rem] blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
 
           <div className="absolute inset-0 rounded-3xl overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
@@ -128,11 +129,11 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 mx-auto w-full max-w-[260px] sm:max-w-[320px]">
             {QUICK_FACTS.map(({ label, value, icon }) => (
               <div
                 key={label}
-                className="p-4 rounded-xl bg-surface border border-border"
+                className="p-3 rounded-xl bg-surface border border-border"
               >
                 <div className="flex items-center gap-2 text-sky-blue text-xs uppercase tracking-wider">
                   <i className={`fa-solid ${icon}`} />
