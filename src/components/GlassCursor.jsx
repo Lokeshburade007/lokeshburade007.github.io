@@ -188,12 +188,26 @@ const GlassCursor = () => {
         // "lighter" accumulation that brightens shared pixels over time.
         ctx.globalCompositeOperation = "source-over";
 
+        // Smooth the polyline by drawing quadratic curves through the
+        // midpoints of consecutive segments — each captured point becomes a
+        // control point for the curve, so spins/loops render as smooth
+        // arcs instead of angular polygons.
         const buildPath = () => {
           ctx.beginPath();
+          const n = points.length;
           ctx.moveTo(points[startIdx].x, points[startIdx].y);
-          for (let i = startIdx + 1; i < points.length; i++) {
-            ctx.lineTo(points[i].x, points[i].y);
+          if (n - startIdx === 2) {
+            // Only 2 points — straight line is the only option
+            ctx.lineTo(points[n - 1].x, points[n - 1].y);
+            return;
           }
+          for (let i = startIdx + 1; i < n - 1; i++) {
+            const mx = (points[i].x + points[i + 1].x) / 2;
+            const my = (points[i].y + points[i + 1].y) / 2;
+            ctx.quadraticCurveTo(points[i].x, points[i].y, mx, my);
+          }
+          // Final segment to the actual last point
+          ctx.lineTo(points[n - 1].x, points[n - 1].y);
         };
 
         // Outer halo — wide, low-alpha, with shadowBlur for the bloom
