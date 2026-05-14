@@ -117,6 +117,14 @@ body {
 
 /* ---------- Glass cursor (desktop only) ----------------------------------- */
 
+.glass-cursor {
+  /* --cursor-speed is set every frame by GlassCursor.jsx, range 0–1.
+     Hue starts cyan (200°) and shifts through magenta toward warm pink
+     (320°) as the cursor accelerates. */
+  --cursor-speed: 0;
+  --cursor-hue: calc(200 + var(--cursor-speed) * 120);
+}
+
 .glass-cursor-ring {
   position: absolute;
   top: 0;
@@ -125,25 +133,39 @@ body {
   height: 2.5rem;
   margin: -1.25rem 0 0 -1.25rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid
+    hsla(
+      var(--cursor-hue),
+      calc(70% + var(--cursor-speed) * 25%),
+      calc(60% + var(--cursor-speed) * 12%),
+      calc(0.22 + var(--cursor-speed) * 0.55)
+    );
+  background: hsla(
+    var(--cursor-hue),
+    80%,
+    62%,
+    calc(0.04 + var(--cursor-speed) * 0.18)
+  );
   backdrop-filter: blur(3px) saturate(140%);
   -webkit-backdrop-filter: blur(3px) saturate(140%);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.18),
-    inset 0 0 14px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 0 calc(20px + var(--cursor-speed) * 36px)
+      hsla(
+        var(--cursor-hue),
+        90%,
+        60%,
+        calc(0.18 + var(--cursor-speed) * 0.5)
+      ),
+    inset 0 0 14px rgba(255, 255, 255, 0.06);
   transition: width 280ms ease-out, height 280ms ease-out,
-    margin 280ms ease-out, background-color 280ms ease-out,
-    border-color 280ms ease-out, box-shadow 280ms ease-out;
+    margin 280ms ease-out;
+  will-change: transform, background-color, border-color, box-shadow;
 }
 
 .glass-cursor.is-hovering .glass-cursor-ring {
   width: 4rem;
   height: 4rem;
   margin: -2rem 0 0 -2rem;
-  background: rgba(56, 189, 248, 0.14);
-  border-color: rgba(56, 189, 248, 0.55);
-  box-shadow: 0 0 36px rgba(56, 189, 248, 0.35),
-    inset 0 0 16px rgba(56, 189, 248, 0.18);
 }
 
 .glass-cursor {
@@ -155,8 +177,9 @@ body {
   height: 6px;
   margin: -3px 0 0 -3px;
   border-radius: 9999px;
-  background: var(--color-sky-blue);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.65);
+  background: hsl(var(--cursor-hue, 200), 90%, 62%);
+  box-shadow: 0 0 calc(10px + var(--cursor-speed, 0) * 18px)
+    hsla(var(--cursor-hue, 200), 95%, 65%, calc(0.7 + var(--cursor-speed, 0) * 0.25));
   transition: opacity 220ms ease-out;
 }
 
