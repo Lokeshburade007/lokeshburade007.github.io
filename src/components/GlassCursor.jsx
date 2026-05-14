@@ -36,10 +36,13 @@ const GlassCursor = () => {
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
+    let lastMouseX = mouseX;
+    let lastMouseY = mouseY;
     let ringX = mouseX;
     let ringY = mouseY;
     let dotX = mouseX;
     let dotY = mouseY;
+    let speed = 0; // smoothed pixels-per-frame
     let visible = false;
     let raf = 0;
 

@@ -98,13 +98,13 @@ const Home = () => {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-sky-blue to-cyan-glow text-dark-bg font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-sky-blue/20"
+                className="btn-3d inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-sky-blue to-cyan-glow text-dark-bg font-semibold hover:opacity-95"
               >
                 <i className="fa-solid fa-rocket" /> Start a Project
               </Link>
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-text-white font-semibold hover:border-sky-blue hover:text-sky-blue transition-colors"
+                className="btn-3d-ghost inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-border text-text-white font-semibold hover:border-sky-blue hover:text-sky-blue"
               >
                 <i className="fa-solid fa-folder-open" /> View Projects
               </Link>
@@ -129,24 +129,25 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="relative group select-none mx-auto w-full max-w-[240px] sm:max-w-[260px] lg:max-w-[280px]">
-            {/* Soft outer glow */}
-            <div className="absolute -inset-8 rounded-full bg-gradient-to-tr from-sky-blue/25 via-cyan-glow/15 to-mint/10 blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="mx-auto w-full max-w-[240px] sm:max-w-[260px] lg:max-w-[280px]">
+            {/* Avatar wrapper — its bounding box is JUST the circle, so the
+                Mac-glass halo and any decorative effects can't bleed onto
+                the identity card below. */}
+            <div className="relative group select-none aspect-square">
+              {/* Mac-style frosted glass halo (replaces the green-blue
+                  rotating conic effect). Always visible, brightens slightly
+                  on hover. */}
+              <div className="absolute -inset-3 mac-glass-halo opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
 
-            {/* Rotating conic ring (only visible on hover) */}
-            <div className="absolute inset-0 rounded-full overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
-              <div className="absolute inset-[-30%] profile-ring blur-[2px]" />
-            </div>
-
-            {/* Circular avatar */}
-            <div className="gradient-border relative rounded-full bg-surface/80 p-1.5 backdrop-blur-sm transition-transform duration-500 group-hover:scale-[1.02]">
-              <div className="relative aspect-square rounded-full overflow-hidden bg-[#cbd5e1]">
-                <img
-                  src={profilePic}
-                  alt="Lokesh Burade"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
+              {/* Circular avatar */}
+              <div className="relative w-full h-full rounded-full p-1.5 bg-white/[0.04] backdrop-blur-sm transition-transform duration-500 group-hover:scale-[1.02]">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-[#cbd5e1] avatar-3d">
+                  <img
+                    src={profilePic}
+                    alt="Lokesh Burade"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                </div>
 
               {/* Floating: current company chip (bottom-left).
                   Hidden on mobile (info already in the always-visible bottom
@@ -203,10 +204,11 @@ const Home = () => {
                   6+ apps
                 </p>
               </div>
+              </div>
             </div>
 
             {/* Info card below the avatar — visible on every screen */}
-            <div className="mt-6 p-4 rounded-2xl bg-surface border border-border text-center">
+            <div className="card-3d mt-6 p-4 rounded-2xl bg-surface border border-border text-center">
               <div className="flex items-center justify-center gap-2">
                 <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
                   <span className="absolute inset-0 rounded-full bg-mint" />
@@ -282,7 +284,7 @@ const Home = () => {
           {HIGHLIGHTS.map(({ icon, title, desc }) => (
             <div
               key={title}
-              className="group p-6 rounded-2xl bg-surface border border-border hover:border-sky-blue/50 transition-colors"
+              className="card-3d group p-6 rounded-2xl bg-surface border border-border hover:border-sky-blue/50"
             >
               <div className="grid place-items-center w-12 h-12 rounded-xl bg-gradient-to-br from-sky-blue/20 to-cyan-glow/10 text-sky-blue text-xl group-hover:scale-110 transition-transform">
                 <i className={icon} />
