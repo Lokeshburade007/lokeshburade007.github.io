@@ -40,97 +40,80 @@ const About = () => {
 
       <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-12 pb-16 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 items-start">
         <div className="w-full">
-        <div className="relative group select-none mx-auto w-full max-w-[240px]">
-          <div className="absolute -inset-6 bg-gradient-to-tr from-sky-blue/20 via-cyan-glow/15 to-mint/10 rounded-[2rem] blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative group select-none mx-auto w-full max-w-[240px]">
+            {/* Soft outer glow */}
+            <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-sky-blue/20 via-cyan-glow/15 to-mint/10 blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
 
-          <div className="absolute inset-0 rounded-3xl overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
-            <div className="absolute inset-[-30%] profile-ring blur-[2px]" />
-          </div>
+            {/* Rotating conic ring on hover */}
+            <div className="absolute inset-0 rounded-full overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
+              <div className="absolute inset-[-30%] profile-ring blur-[2px]" />
+            </div>
 
-          <div className="gradient-border relative rounded-3xl bg-surface p-1.5 transition-transform duration-500 group-hover:scale-[1.01]">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-dark-bg">
-              <img
-                src={meImage}
-                alt="Lokesh Burade"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-
-              {/* Overlay revealing key facts — visible by default on mobile,
-                  hover-revealed on md+ (touch devices have no hover).
-                  Compact text/padding so the photo isn't smothered. */}
-              <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 bg-gradient-to-t from-dark-bg via-dark-bg/85 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-6 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                <div className="flex items-center gap-1.5">
-                  <span className="relative inline-flex w-1.5 h-1.5 rounded-full text-mint pulse-dot">
-                    <span className="absolute inset-0 rounded-full bg-mint" />
-                  </span>
-                  <p className="text-[9px] uppercase tracking-wider text-mint font-medium">
-                    Open for freelance
-                  </p>
-                </div>
-                <p className="mt-1 text-sm font-bold text-text-white leading-tight">
-                  {PROFILE.name}
-                </p>
-                <p className="text-[10px] text-sky-blue leading-tight">
-                  {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
-                </p>
-
-                <div className="mt-2 grid grid-cols-2 gap-1 text-[9px]">
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-cube text-sky-blue text-[8px]" /> 6+ apps
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-brands fa-npm text-red-400 text-[8px]" /> 3 SDKs
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-location-dot text-sky-blue text-[8px]" />
-                    Pune / Nagpur
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface/80 border border-border text-text-muted backdrop-blur">
-                    <i className="fa-solid fa-graduation-cap text-sky-blue text-[8px]" />
-                    9.04 CGPA
-                  </span>
-                </div>
-
-                <div className="mt-2.5 flex items-center gap-1.5">
-                  <a
-                    href={`mailto:${PROFILE.email}`}
-                    aria-label="Email"
-                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
-                  >
-                    <i className="fa-solid fa-envelope" />
-                  </a>
-                  <a
-                    href={`https://wa.me/${PROFILE.whatsapp}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="WhatsApp"
-                    className="grid place-items-center w-6 h-6 rounded bg-mint/15 border border-mint/40 text-mint text-[10px] hover:bg-mint hover:text-dark-bg transition-colors backdrop-blur"
-                  >
-                    <i className="fa-brands fa-whatsapp" />
-                  </a>
-                  <a
-                    href={PROFILE.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="LinkedIn"
-                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
-                  >
-                    <i className="fa-brands fa-linkedin" />
-                  </a>
-                  <a
-                    href={PROFILE.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub"
-                    className="grid place-items-center w-6 h-6 rounded bg-surface/80 border border-border text-text-muted text-[10px] hover:text-sky-blue hover:border-sky-blue transition-colors backdrop-blur"
-                  >
-                    <i className="fa-brands fa-github" />
-                  </a>
-                </div>
+            {/* Circular avatar */}
+            <div className="gradient-border relative rounded-full bg-surface p-1.5 transition-transform duration-500 group-hover:scale-[1.02]">
+              <div className="relative aspect-square rounded-full overflow-hidden bg-[#e5e7eb]">
+                <img
+                  src={meImage}
+                  alt="Lokesh Burade"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Compact identity card under the avatar */}
+          <div className="mt-5 mx-auto w-full max-w-[280px] p-4 rounded-2xl bg-surface border border-border text-center">
+            <div className="flex items-center justify-center gap-2">
+              <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
+                <span className="absolute inset-0 rounded-full bg-mint" />
+              </span>
+              <p className="text-[10px] uppercase tracking-wider text-mint font-medium">
+                Open for freelance
+              </p>
+            </div>
+            <h3 className="mt-1.5 text-base font-bold text-text-white">
+              {PROFILE.name}
+            </h3>
+            <p className="text-xs text-sky-blue mt-0.5">
+              {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
+            </p>
+            <div className="mt-3 flex items-center justify-center gap-2">
+              <a
+                href={`mailto:${PROFILE.email}`}
+                aria-label="Email"
+                className="grid place-items-center w-8 h-8 rounded-lg bg-dark-bg border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors"
+              >
+                <i className="fa-solid fa-envelope text-xs" />
+              </a>
+              <a
+                href={`https://wa.me/${PROFILE.whatsapp}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="grid place-items-center w-8 h-8 rounded-lg bg-mint/15 border border-mint/40 text-mint hover:bg-mint hover:text-dark-bg transition-colors"
+              >
+                <i className="fa-brands fa-whatsapp text-xs" />
+              </a>
+              <a
+                href={PROFILE.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="grid place-items-center w-8 h-8 rounded-lg bg-dark-bg border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors"
+              >
+                <i className="fa-brands fa-linkedin text-xs" />
+              </a>
+              <a
+                href={PROFILE.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                className="grid place-items-center w-8 h-8 rounded-lg bg-dark-bg border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors"
+              >
+                <i className="fa-brands fa-github text-xs" />
+              </a>
+            </div>
+          </div>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 mx-auto w-full max-w-[320px]">
             {QUICK_FACTS.map(({ label, value, icon }) => (

@@ -129,79 +129,23 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="relative group select-none mx-auto w-full max-w-[260px] sm:max-w-[280px] lg:max-w-[300px]">
+          <div className="relative group select-none mx-auto w-full max-w-[240px] sm:max-w-[260px] lg:max-w-[280px]">
             {/* Soft outer glow */}
-            <div className="absolute -inset-8 bg-gradient-to-tr from-sky-blue/25 via-cyan-glow/15 to-mint/10 rounded-[2rem] blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute -inset-8 rounded-full bg-gradient-to-tr from-sky-blue/25 via-cyan-glow/15 to-mint/10 blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
 
             {/* Rotating conic ring (only visible on hover) */}
-            <div className="absolute inset-0 rounded-3xl overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
+            <div className="absolute inset-0 rounded-full overflow-hidden opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none">
               <div className="absolute inset-[-30%] profile-ring blur-[2px]" />
             </div>
 
-            {/* Card — no overflow-hidden here, so the floating chips below
-                can extend past the card edges */}
-            <div className="gradient-border relative rounded-3xl bg-surface/80 p-1.5 backdrop-blur-sm transition-transform duration-500 group-hover:scale-[1.01]">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-dark-bg">
+            {/* Circular avatar */}
+            <div className="gradient-border relative rounded-full bg-surface/80 p-1.5 backdrop-blur-sm transition-transform duration-500 group-hover:scale-[1.02]">
+              <div className="relative aspect-square rounded-full overflow-hidden bg-[#e5e7eb]">
                 <img
                   src={profilePic}
                   alt="Lokesh Burade"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
-
-                {/* Bottom-up reveal panel — visible by default on mobile,
-                    hover-revealed on md+ (touch devices have no hover).
-                    Compact text/padding so the image stays prominent. */}
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent transition-all duration-500 translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                  <div className="flex items-center gap-1.5">
-                    <span className="relative inline-flex w-1.5 h-1.5 rounded-full text-mint pulse-dot">
-                      <span className="absolute inset-0 rounded-full bg-mint" />
-                    </span>
-                    <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-mint font-medium">
-                      Available for freelance
-                    </p>
-                  </div>
-                  <h3 className="mt-1 text-sm sm:text-base font-bold text-text-white leading-tight">
-                    {PROFILE.name}
-                  </h3>
-                  <p className="text-[11px] text-sky-blue leading-tight">
-                    {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
-                  </p>
-
-                  <div className="mt-2 flex flex-wrap gap-1 text-[10px]">
-                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
-                      <i className="fa-solid fa-location-dot text-sky-blue text-[9px]" />
-                      {PROFILE.location}
-                    </span>
-                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
-                      <i className="fa-solid fa-briefcase text-sky-blue text-[9px]" />
-                      SN AnyDevice · TechCoderLabz
-                    </span>
-                  </div>
-
-                  <div className="mt-2.5 flex items-center gap-1.5">
-                    {SOCIAL_LINKS.map(({ href, icon, label }) => (
-                      <a
-                        key={label}
-                        href={href}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={label}
-                        className="grid place-items-center w-7 h-7 rounded-md bg-surface border border-border text-text-muted text-[11px] hover:text-sky-blue hover:border-sky-blue transition-colors"
-                      >
-                        <i className={icon} />
-                      </a>
-                    ))}
-                    <a
-                      href={`https://wa.me/${PROFILE.whatsapp}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="WhatsApp"
-                      className="grid place-items-center w-7 h-7 rounded-md bg-mint/15 border border-mint/40 text-mint text-[11px] hover:bg-mint hover:text-dark-bg transition-colors"
-                    >
-                      <i className="fa-brands fa-whatsapp" />
-                    </a>
-                  </div>
-                </div>
               </div>
 
               {/* Floating: current company chip (bottom-left).
@@ -251,13 +195,55 @@ const Home = () => {
               </div>
 
               {/* Floating: stats chip (mid-right, only on hover) */}
-              <div className="absolute right-[-1rem] top-1/2 -translate-y-1/2 translate-x-3 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 bg-dark-bg border border-sky-blue/30 rounded-xl px-3 py-2 shadow-xl">
+              <div className="hidden md:block absolute right-[-1rem] top-1/2 -translate-y-1/2 translate-x-3 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 bg-dark-bg border border-sky-blue/30 rounded-xl px-3 py-2 shadow-xl">
                 <p className="text-[10px] uppercase tracking-wider text-text-muted">
                   Shipped
                 </p>
                 <p className="text-sm font-bold bg-gradient-to-r from-sky-blue to-cyan-glow bg-clip-text text-transparent">
                   6+ apps
                 </p>
+              </div>
+            </div>
+
+            {/* Info card below the avatar — visible on every screen */}
+            <div className="mt-6 p-4 rounded-2xl bg-surface border border-border text-center">
+              <div className="flex items-center justify-center gap-2">
+                <span className="relative inline-flex w-2 h-2 rounded-full text-mint pulse-dot">
+                  <span className="absolute inset-0 rounded-full bg-mint" />
+                </span>
+                <p className="text-[10px] uppercase tracking-wider text-mint font-medium">
+                  Available for freelance
+                </p>
+              </div>
+              <h3 className="mt-2 text-base font-bold text-text-white">
+                {PROFILE.name}
+              </h3>
+              <p className="text-xs text-sky-blue mt-0.5">
+                {PROFILE.title} · {PROFILE.yearsOfExperience} yrs
+              </p>
+
+              <div className="mt-3 flex items-center justify-center gap-2">
+                {SOCIAL_LINKS.map(({ href, icon, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="grid place-items-center w-8 h-8 rounded-lg bg-dark-bg border border-border text-text-muted hover:text-sky-blue hover:border-sky-blue transition-colors"
+                  >
+                    <i className={icon} />
+                  </a>
+                ))}
+                <a
+                  href={`https://wa.me/${PROFILE.whatsapp}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="WhatsApp"
+                  className="grid place-items-center w-8 h-8 rounded-lg bg-mint/15 border border-mint/40 text-mint hover:bg-mint hover:text-dark-bg transition-colors"
+                >
+                  <i className="fa-brands fa-whatsapp" />
+                </a>
               </div>
             </div>
           </div>
