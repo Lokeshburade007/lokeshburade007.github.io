@@ -134,21 +134,21 @@ body {
   height: 2.5rem;
   margin: -1.25rem 0 0 -1.25rem;
   border-radius: 9999px;
-  /* At rest: zero saturation → pure white-ish glass (no hue tint visible).
-     As speed climbs, saturation ramps up so the chosen hue starts blending
-     in. The ring stays a clean glass disc until you actually move fast. */
+  /* At rest: pure white-ish glass (no hue visible).
+     At full speed: only a *faint* pastel tint — saturation is capped low
+     and lightness stays high so the ring never goes dark/saturated. */
   border: 1.5px solid
     hsla(
       var(--cursor-hue),
-      calc(var(--cursor-speed) * 90%),
-      calc(82% - var(--cursor-speed) * 18%),
-      calc(0.32 + var(--cursor-speed) * 0.4)
+      calc(var(--cursor-speed) * 55%),
+      calc(88% - var(--cursor-speed) * 6%),
+      calc(0.32 + var(--cursor-speed) * 0.28)
     );
   background: hsla(
     var(--cursor-hue),
-    calc(var(--cursor-speed) * 80%),
-    85%,
-    calc(0.05 + var(--cursor-speed) * 0.1)
+    calc(var(--cursor-speed) * 50%),
+    92%,
+    calc(0.05 + var(--cursor-speed) * 0.07)
   );
   backdrop-filter: blur(4px) saturate(140%);
   -webkit-backdrop-filter: blur(4px) saturate(140%);
@@ -156,9 +156,9 @@ body {
     0 0 calc(6px + var(--cursor-speed) * 10px)
       hsla(
         var(--cursor-hue),
-        calc(var(--cursor-speed) * 80%),
-        82%,
-        calc(0.08 + var(--cursor-speed) * 0.18)
+        calc(var(--cursor-speed) * 55%),
+        90%,
+        calc(0.08 + var(--cursor-speed) * 0.12)
       ),
     inset 0 0 10px rgba(255, 255, 255, 0.07);
   transition: width 280ms ease-out, height 280ms ease-out,

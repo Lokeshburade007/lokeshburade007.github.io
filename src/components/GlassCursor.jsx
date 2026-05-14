@@ -144,17 +144,18 @@ const GlassCursor = () => {
           el.style.width = `${startSize}px`;
           el.style.height = `${startSize}px`;
           el.style.filter = `blur(${(2 + boost * 2).toFixed(1)}px)`;
-          // Light pastel core (high lightness 80%, modest alpha) — reads as
-          // a glowing color wisp rather than a saturated dark blob.
-          const coreAlpha = (0.32 + boost * 0.25).toFixed(2);
-          const midAlpha = (0.14 + boost * 0.12).toFixed(2);
+          // Very-very-light pastel core. High lightness (92%), low saturation,
+          // very low alpha — reads as a faint colored mist over the dark UI
+          // rather than a saturated paint daub.
+          const coreAlpha = (0.16 + boost * 0.14).toFixed(2); // 0.16 → 0.30
+          const midAlpha = (0.07 + boost * 0.07).toFixed(2); // 0.07 → 0.14
           el.style.background = `radial-gradient(circle, hsla(${p.hue.toFixed(
             0
-          )}, 85%, 80%, ${coreAlpha}) 0%, hsla(${(p.hue + 24).toFixed(
+          )}, 60%, 92%, ${coreAlpha}) 0%, hsla(${(p.hue + 24).toFixed(
             0
-          )}, 80%, 78%, ${midAlpha}) 50%, hsla(${(p.hue - 16).toFixed(
+          )}, 55%, 90%, ${midAlpha}) 50%, hsla(${(p.hue - 16).toFixed(
             0
-          )}, 80%, 75%, 0) 78%)`;
+          )}, 55%, 88%, 0) 80%)`;
           trailIdx = (trailIdx + 1) % TRAIL_COUNT;
         }
       }
