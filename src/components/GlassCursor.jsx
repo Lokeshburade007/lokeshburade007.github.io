@@ -17,11 +17,15 @@ import { useEffect, useRef } from "react";
 const INTERACTIVE_SELECTOR =
   "a, button, [role='button'], input, textarea, select, label, summary";
 
-// How quickly the canvas fades each frame. Higher = trail evaporates faster.
-const TRAIL_FADE_ALPHA = 0.085;
+// How quickly the canvas fades each frame. Higher = trail evaporates faster
+// AND no near-zero "footprint" pixels accumulate on the canvas.
+const TRAIL_FADE_ALPHA = 0.16;
 // Speed (0–1) at which we start drawing the colored neon trail. Below this
 // the cursor reads as the calm glass ring + dot only.
 const TRAIL_THRESHOLD = 0.28;
+// After this many ms with no new stroke being drawn, hard-clear the canvas
+// so no faint sub-pixel residue remains visible anywhere on the page.
+const TRAIL_QUIESCE_MS = 280;
 
 const GlassCursor = () => {
   const wrapRef = useRef(null);
@@ -56,11 +60,19 @@ const GlassCursor = () => {
     let mouseY = window.innerHeight / 2;
     let lastMouseX = mouseX;
     let lastMouseY = mouseY;
-    // Stroke anchor — the START of the next line segment we draw. Updated
-    // every frame to the current mouse position so consecutive frames'
-    // segments share an endpoint exactly (= no gap, no kink).
-    let strokeX = mouseX;
-    let strokeY = mouseY;
+    // Three-point smoothing buffer for the trail. Each frame we draw a
+    // quadratic bezier whose control point is p1 and whose endpoints are
+    // the midpoints of (p0,p1) and (p1,current). This guarantees C¹
+    // continuity between consecutive frames — the line is smooth, with
+    // no visible angles where points connect.
+    let p0x = mouseX;
+    let p0y = mouseY;
+    let p1x = mouseX;
+    let p1y = mouseY;
+    // Smoothed input position used for trail drawing — removes pointer
+    // jitter so curves don't ripple.
+    let smoothX = mouseX;
+    let smoothY = mouseY;
     let ringX = mouseX;
     let ringY = mouseY;
     let dotX = mouseX;
@@ -68,6 +80,7 @@ const GlassCursor = () => {
     let speed = 0;
     let visible = false;
     let raf = 0;
+    let lastStrokeAt = 0; // timestamp of last actual draw
 
     const showCursor = () => {
       if (!visible) {
@@ -106,14 +119,18 @@ const GlassCursor = () => {
     const onResize = () => sizeCanvas();
     window.addEventListener("resize", onResize);
 
-    const tick = () => {
-      // Position smoothing
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+    const tick = (ts) => {
+      // Smoothed trail input — removes single-frame pointer jitter
+      smoothX += (mouseX - smoothX) * 0.6;
+      smoothY += (mouseY - smoothY) * 0.6;
+
+      // Position smoothing for the visible cursor elements
+      ringX += (mouseX - ringX) * 0.22;
+      ringY += (mouseY - ringY) * 0.22;
       dotX += (mouseX - dotX) * 0.55;
       dotY += (mouseY - dotY) * 0.55;
 
-      // Velocity
+      // Velocity (low-pass filtered)
       const dx = mouseX - lastMouseX;
       const dy = mouseY - lastMouseY;
       const inst = Math.sqrt(dx * dx + dy * dy);
@@ -125,16 +142,28 @@ const GlassCursor = () => {
       wrap.style.setProperty("--cursor-speed", t.toFixed(3));
 
       // ----- Canvas trail -----
-      // 1) Fade the entire existing trail by reducing alpha — uses
-      //    destination-out so we lower opacity without darkening the page
-      //    behind the canvas.
+      // 1) Fade existing trail every frame (destination-out keeps the page
+      //    behind the canvas untouched).
       ctx.globalCompositeOperation = "destination-out";
       ctx.fillStyle = `rgba(0, 0, 0, ${TRAIL_FADE_ALPHA})`;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      // 2) Draw the new segment from previous stroke anchor to current mouse.
-      //    Because anchor advances every frame, segments share endpoints
-      //    exactly — the line is continuous, no gaps, no kinks.
+      // 1a) After the cursor has been quiescent for TRAIL_QUIESCE_MS, do
+      //     one hard wipe — kills any sub-pixel residue that the alpha
+      //     fade leaves behind. Without this, very faint "footprints"
+      //     accumulate over time on the canvas.
+      if (lastStrokeAt && ts - lastStrokeAt > TRAIL_QUIESCE_MS) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+        lastStrokeAt = 0;
+      }
+
+      // 2) Draw a quadratic bezier between midpoints, using p1 as the
+      //    control point. Successive curves share their endpoint = perfect
+      //    C¹ continuity, no visible angles. This is the standard "smooth
+      //    path" technique used in drawing apps.
       if (visible && t > TRAIL_THRESHOLD) {
         const boost = (t - TRAIL_THRESHOLD) / (1 - TRAIL_THRESHOLD);
         // Cyan (190°) → Green (150°). Greenish-blue neon range only.
@@ -142,18 +171,23 @@ const GlassCursor = () => {
         const stroke = 1.5 + boost * 2.5; // 1.5 → 4 px true core
         const glow = 8 + boost * 18;
 
+        const midAx = (p0x + p1x) / 2;
+        const midAy = (p0y + p1y) / 2;
+        const midBx = (p1x + smoothX) / 2;
+        const midBy = (p1y + smoothY) / 2;
+
         ctx.globalCompositeOperation = "lighter"; // additive bloom
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
 
         // Outer soft halo (wide, low-alpha)
         ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 0.35)`;
         ctx.lineWidth = stroke + 6;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
         ctx.shadowBlur = glow;
         ctx.shadowColor = `hsl(${hue}, 100%, 60%)`;
         ctx.beginPath();
-        ctx.moveTo(strokeX, strokeY);
-        ctx.lineTo(mouseX, mouseY);
+        ctx.moveTo(midAx, midAy);
+        ctx.quadraticCurveTo(p1x, p1y, midBx, midBy);
         ctx.stroke();
 
         // Bright inner core (tight, high-alpha)
@@ -161,17 +195,20 @@ const GlassCursor = () => {
         ctx.lineWidth = stroke;
         ctx.shadowBlur = glow * 0.4;
         ctx.beginPath();
-        ctx.moveTo(strokeX, strokeY);
-        ctx.lineTo(mouseX, mouseY);
+        ctx.moveTo(midAx, midAy);
+        ctx.quadraticCurveTo(p1x, p1y, midBx, midBy);
         ctx.stroke();
 
         ctx.shadowBlur = 0;
+        lastStrokeAt = ts;
       }
 
-      // Anchor advances regardless of whether we drew — ensures the trail
-      // never has a leftover stale start position.
-      strokeX = mouseX;
-      strokeY = mouseY;
+      // Advance the smoothing buffer so the next frame's curve continues
+      // smoothly from this one.
+      p0x = p1x;
+      p0y = p1y;
+      p1x = smoothX;
+      p1y = smoothY;
 
       // Ring & dot
       ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
