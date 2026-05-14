@@ -123,30 +123,53 @@ const GlassCursor = () => {
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
 
       // ---- Color-leak trail ----
-      // Spawn rate tied to speed: faster movement → more particles per frame
-      // (capped so we don't burn CPU). Each particle is positioned at the
-      // current mouse coords, given the speed-driven hue, and starts its
-      // fade clock.
-      if (visible && t > TRAIL_SPAWN_THRESHOLD && ts - lastSpawn > 14) {
-        lastSpawn = ts;
-        const p = trailState[trailIdx];
-        p.x = mouseX;
-        p.y = mouseY;
-        // Blue (210°) → Green (120°) → Orange (30°). Descending hue arc.
-        p.hue = 210 - t * 180; // matches ring's hue range
-        p.born = ts;
-        p.alive = true;
-        const el = trailEls[trailIdx];
-        const startSize = 14 + t * 22; // px diameter
-        el.style.width = `${startSize}px`;
-        el.style.height = `${startSize}px`;
-        el.style.background = `radial-gradient(circle, hsla(${p.hue}, 95%, 65%, ${
-          0.55 + t * 0.25
-        }) 0%, hsla(${p.hue + 30}, 90%, 60%, 0) 70%)`;
-        trailIdx = (trailIdx + 1) % TRAIL_COUNT;
+      // Spawn rate tied to speed: at the threshold particles appear sparsely;
+      // at peak speed we spawn one per frame for a dense, very visible streak.
+      // Particle size, brightness, and blur all scale with speed so a quick
+      // flick produces obvious bold colored bursts.
+      if (visible && t > TRAIL_SPAWN_THRESHOLD) {
+        const interval = Math.max(8, 28 - t * 24); // 28ms (slow) → 8ms (fast)
+        const burst = Math.min(3, 1 + Math.floor(t * 3)); // 1–3 particles per spawn
+        if (ts - lastSpawn >= interval) {
+          lastSpawn = ts;
+          for (let b = 0; b < burst; b++) {
+            const p = trailState[trailIdx];
+            // Tiny lateral jitter for the extra particles in a burst so they
+            // don't perfectly stack on top of each other.
+            const jx = b === 0 ? 0 : (Math.random() - 0.5) * 8;
+            const jy = b === 0 ? 0 : (Math.random() - 0.5) * 8;
+            p.x = mouseX + jx;
+            p.y = mouseY + jy;
+            // Blue (210°) → Green (120°) → Orange (30°). Descending hue arc.
+            p.hue = 210 - t * 180;
+            p.born = ts;
+            p.alive = true;
+            const el = trailEls[trailIdx];
+            const startSize = 18 + t * 50; // 18 → 68 px diameter
+            el.style.width = `${startSize}px`;
+            el.style.height = `${startSize}px`;
+            // Blur scales with speed so faster movement leaks more atmosphere
+            el.style.filter = `blur(${(2 + t * 4).toFixed(1)}px)`;
+            const coreAlpha = 0.6 + t * 0.4; // 0.6 → 1.0 at spawn
+            el.style.background = `radial-gradient(circle, hsla(${p.hue.toFixed(
+              0
+            )}, 100%, 65%, ${coreAlpha.toFixed(
+              2
+            )}) 0%, hsla(${(p.hue + 30).toFixed(
+              0
+            )}, 95%, 60%, ${(coreAlpha * 0.4).toFixed(
+              2
+            )}) 45%, hsla(${(p.hue - 20).toFixed(
+              0
+            )}, 95%, 55%, 0) 75%)`;
+            trailIdx = (trailIdx + 1) % TRAIL_COUNT;
+          }
+        }
       }
 
-      // Decay every alive particle
+      // Decay every alive particle.
+      // Hold near-full opacity for the first 35% of life (so a fast streak
+      // reads as a solid trail), then fade out fast.
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const p = trailState[i];
         if (!p.alive) continue;
@@ -157,9 +180,9 @@ const GlassCursor = () => {
           continue;
         }
         const u = age / TRAIL_LIFE_MS; // 0..1
-        const alpha = 1 - u;
-        const scale = 1 + u * 1.6; // grows as it fades
-        trailEls[i].style.opacity = (alpha * 0.85).toFixed(3);
+        const alpha = u < 0.35 ? 1 : 1 - (u - 0.35) / 0.65;
+        const scale = 1 + u * 1.8;
+        trailEls[i].style.opacity = alpha.toFixed(3);
         trailEls[i].style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-50%, -50%) scale(${scale})`;
       }
 
