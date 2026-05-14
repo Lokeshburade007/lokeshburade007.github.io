@@ -22,6 +22,29 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!--
+      Single-Page Apps for GitHub Pages decoder — paired with public/404.html.
+      Restores the real path from the redirect query string before React boots,
+      so deep links like /about and hard refreshes don't 404.
+    -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
     <script src="https://kit.fontawesome.com/6c7c0a9da6.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <title>Lokesh Burade — Full Stack Developer · MERN · Next.js · Mobile</title>
