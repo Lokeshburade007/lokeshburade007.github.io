@@ -125,52 +125,6 @@ body {
   --cursor-hue: calc(210 - var(--cursor-speed) * 70);
 }
 
-.glass-cursor-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: -1.25rem 0 0 -1.25rem;
-  border-radius: 9999px;
-  /* At rest: pure white-ish glass (no hue visible).
-     At full speed: only a *faint* pastel tint — saturation is capped low
-     and lightness stays high so the ring never goes dark/saturated. */
-  border: 1.5px solid
-    hsla(
-      var(--cursor-hue),
-      calc(var(--cursor-speed) * 55%),
-      calc(88% - var(--cursor-speed) * 6%),
-      calc(0.32 + var(--cursor-speed) * 0.28)
-    );
-  background: hsla(
-    var(--cursor-hue),
-    calc(var(--cursor-speed) * 50%),
-    92%,
-    calc(0.05 + var(--cursor-speed) * 0.07)
-  );
-  backdrop-filter: blur(4px) saturate(140%);
-  -webkit-backdrop-filter: blur(4px) saturate(140%);
-  box-shadow:
-    0 0 calc(6px + var(--cursor-speed) * 10px)
-      hsla(
-        var(--cursor-hue),
-        calc(var(--cursor-speed) * 55%),
-        90%,
-        calc(0.08 + var(--cursor-speed) * 0.12)
-      ),
-    inset 0 0 10px rgba(255, 255, 255, 0.07);
-  transition: width 280ms ease-out, height 280ms ease-out,
-    margin 280ms ease-out;
-  will-change: transform, background-color, border-color, box-shadow;
-}
-
-.glass-cursor.is-hovering .glass-cursor-ring {
-  width: 4rem;
-  height: 4rem;
-  margin: -2rem 0 0 -2rem;
-}
-
 .glass-cursor {
   transition: opacity 220ms ease-out;
 }

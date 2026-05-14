@@ -25,7 +25,6 @@ const TRAIL_SPAWN_THRESHOLD = 0.32; // 0..1 — only fires on genuinely fast mov
 
 const GlassCursor = () => {
   const wrapRef = useRef(null);
-  const ringRef = useRef(null);
   const dotRef = useRef(null);
   const trailContainerRef = useRef(null);
 
@@ -35,17 +34,14 @@ const GlassCursor = () => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const wrap = wrapRef.current;
-    const ring = ringRef.current;
     const dot = dotRef.current;
     const trailContainer = trailContainerRef.current;
-    if (!wrap || !ring || !dot || !trailContainer) return;
+    if (!wrap || !dot || !trailContainer) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
     let lastMouseX = mouseX;
     let lastMouseY = mouseY;
-    let ringX = mouseX;
-    let ringY = mouseY;
     let dotX = mouseX;
     let dotY = mouseY;
     let speed = 0;
@@ -108,9 +104,8 @@ const GlassCursor = () => {
     };
 
     const tick = (ts) => {
-      // Position smoothing
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+      // Position smoothing — only the dot tracks the cursor; the big glass
+      // ring has been removed (left a circular hover artifact users disliked).
       dotX += (mouseX - dotX) * 0.55;
       dotY += (mouseY - dotY) * 0.55;
 
@@ -126,13 +121,6 @@ const GlassCursor = () => {
       const t = Math.max(0, Math.min(1, speed / 50));
       wrap.style.setProperty("--cursor-speed", t.toFixed(3));
 
-      // Ring stretch along motion vector
-      const len = Math.hypot(dx, dy);
-      const angle = len > 0.5 ? Math.atan2(dy, dx) : 0;
-      const stretch = 1 + t * 0.6;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) rotate(${angle}rad) scale(${stretch}, ${
-        2 - stretch
-      }) rotate(${-angle}rad)`;
       dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
 
       // ---- Line-segment color trail ----
@@ -159,9 +147,10 @@ const GlassCursor = () => {
             p.y = (sy + ey) / 2;
             p.angle = Math.atan2(segDy, segDx);
             p.length = segLen;
-            p.thickness = 4 + boost * 6; // 4 → 10 px stroke
-            // Blue (210°) → Green (140°). Cool palette only.
-            p.hue = 210 - t * 70;
+            // Neon stroke — thinner core, the halo glow gives it visual weight
+            p.thickness = 2 + boost * 3; // 2 → 5 px true stroke
+            // Cyan (190°) → Green (150°). Pure greenish-blue neon range only.
+            p.hue = 190 - t * 40;
             p.born = ts;
             p.alive = true;
 
@@ -169,15 +158,22 @@ const GlassCursor = () => {
             el.style.width = `${p.length.toFixed(1)}px`;
             el.style.height = `${p.thickness.toFixed(1)}px`;
             el.style.borderRadius = `${(p.thickness / 2).toFixed(1)}px`;
-            el.style.filter = `blur(${(1 + boost * 1.5).toFixed(1)}px)`;
-            // Very-very-light pastel — soft fall-off at the segment's two
-            // ends so consecutive segments blend into a smooth line.
-            const coreAlpha = (0.18 + boost * 0.18).toFixed(2);
+            el.style.filter = "none";
+            // Solid bright neon core — high saturation + high lightness.
+            const hue = p.hue.toFixed(0);
             el.style.background = `linear-gradient(90deg,
-              hsla(${p.hue.toFixed(0)}, 60%, 92%, 0) 0%,
-              hsla(${p.hue.toFixed(0)}, 60%, 92%, ${coreAlpha}) 25%,
-              hsla(${(p.hue + 24).toFixed(0)}, 55%, 92%, ${coreAlpha}) 75%,
-              hsla(${(p.hue + 24).toFixed(0)}, 55%, 90%, 0) 100%)`;
+              hsla(${hue}, 100%, 80%, 0) 0%,
+              hsl(${hue}, 100%, 78%) 22%,
+              hsl(${hue}, 100%, 82%) 50%,
+              hsl(${hue}, 100%, 78%) 78%,
+              hsla(${hue}, 100%, 80%, 0) 100%)`;
+            // Layered neon halo: tight bright bloom + wider soft glow.
+            const glow = (8 + boost * 14).toFixed(0);
+            const farGlow = (16 + boost * 24).toFixed(0);
+            el.style.boxShadow = `
+              0 0 ${(p.thickness * 1.5).toFixed(0)}px hsl(${hue}, 100%, 70%),
+              0 0 ${glow}px hsla(${hue}, 100%, 60%, 0.85),
+              0 0 ${farGlow}px hsla(${hue}, 100%, 55%, 0.45)`;
             trailIdx = (trailIdx + 1) % TRAIL_COUNT;
           }
 
@@ -241,12 +237,11 @@ const GlassCursor = () => {
       style={{ opacity: 0 }}
       aria-hidden="true"
     >
-      {/* Trail particles render here (created imperatively in useEffect) */}
+      {/* Trail segments render here (created imperatively in useEffect) */}
       <div
         ref={trailContainerRef}
         className="absolute inset-0 pointer-events-none"
       />
-      <div ref={ringRef} className="glass-cursor-ring" />
       <div ref={dotRef} className="glass-cursor-dot absolute top-0 left-0" />
     </div>
   );
