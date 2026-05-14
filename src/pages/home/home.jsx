@@ -140,7 +140,7 @@ const Home = () => {
 
             {/* Circular avatar */}
             <div className="gradient-border relative rounded-full bg-surface/80 p-1.5 backdrop-blur-sm transition-transform duration-500 group-hover:scale-[1.02]">
-              <div className="relative aspect-square rounded-full overflow-hidden bg-[#e5e7eb]">
+              <div className="relative aspect-square rounded-full overflow-hidden bg-[#cbd5e1]">
                 <img
                   src={profilePic}
                   alt="Lokesh Burade"

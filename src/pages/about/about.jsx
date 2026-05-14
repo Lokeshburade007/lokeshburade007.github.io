@@ -51,7 +51,7 @@ const About = () => {
 
             {/* Circular avatar */}
             <div className="gradient-border relative rounded-full bg-surface p-1.5 transition-transform duration-500 group-hover:scale-[1.02]">
-              <div className="relative aspect-square rounded-full overflow-hidden bg-[#e5e7eb]">
+              <div className="relative aspect-square rounded-full overflow-hidden bg-[#94a3b8]">
                 <img
                   src={meImage}
                   alt="Lokesh Burade"
